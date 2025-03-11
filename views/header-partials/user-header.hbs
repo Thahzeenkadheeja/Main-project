@@ -1,0 +1,72 @@
+<header id="header" class="header dark-background d-flex flex-column">
+    <i class="header-toggle d-xl-none bi bi-list"></i>
+    {{#if user}}
+    <div class="profile-img">
+        <img src="/images/user-images/{{user._id}}.png" alt="" class="img-fluid rounded-circle">
+    </div>
+
+    <a href="/" class="logo text-center align-items-center justify-content-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">{{user.Fname}} {{user.Lname}}</h1>
+        <p>{{user.Email}}</p>
+    </a>
+
+    {{else}}
+
+    <div class="profile-img">
+        <img src="/assets2/img/my-profile-img.jpg" alt="" class="img-fluid rounded-circle">
+    </div>
+
+    <a href="/" class="logo d-flex align-items-center justify-content-center">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
+        <h1 class="sitename">Hey Welcome</h1>
+        <p>Please login to continue with this </p>
+    </a>
+
+    {{/if}}
+
+    <nav id="navmenu" class="navmenu">
+        <ul>
+            <li><a href="/" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
+            <li><a href="/attendance"><i class="bi bi-person navicon"></i>Student Attendance</a></li>
+            <li><a href="/all-materials"><i class="bi bi-file-earmark-text navicon"></i> Study Materials</a></li>
+            <li><a href="/tasks"><i class="bi bi-images navicon"></i> My Assignments</a></li>
+            <li><a href="/homework"><i class="bi bi-images navicon"></i> Home Works</a></li>
+            <li><a href="/timetable"><i class="bi bi-images navicon"></i> Time Table</a></li>
+
+            <li><a href="/profile"><i class="bi bi-hdd-stack navicon"></i> My Profile</a></li>
+            <li><a href="/notifications"><i class="bi bi-hdd-stack navicon"></i> Notifications</a></li>
+            <li><a href="/announcements"><i class="bi bi-hdd-stack navicon"></i> Anouncements</a></li>
+
+
+            {{!-- <li><a href="/Time Table"><i class="bi bi-person navicon"></i> View Time Table</a></li>
+            <li><a href="Assignment"><i class="bi bi-file-earmark-text navicon"></i>View Assignments</a></li> --}}
+            {{!-- <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio</a></li>
+            --}}
+            {{!-- <li class="dropdown"><a href="#"><i class="bi bi-menu-button navicon"></i> <span>Dropdown</span> <i
+                        class="bi bi-chevron-down toggle-dropdown"></i></a>
+                <ul>
+                    <li><a href="#">Dropdown 1</a></li>
+                    <li class="dropdown"><a href="#"><span>Deep Dropdown</span> <i
+                                class="bi bi-chevron-down toggle-dropdown"></i></a>
+                        <ul>
+                            <li><a href="#">Deep Dropdown 1</a></li>
+                            <li><a href="#">Deep Dropdown 2</a></li>
+                            <li><a href="#">Deep Dropdown 3</a></li>
+                            <li><a href="#">Deep Dropdown 4</a></li>
+                            <li><a href="#">Deep Dropdown 5</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Dropdown 2</a></li>
+                    <li><a href="#">Dropdown 3</a></li>
+                    <li><a href="#">Dropdown 4</a></li>
+                </ul>
+            </li> --}}
+            <li><a href="/signout" class="text-danger"><i class="bi bi-box-arrow-right navicon text-danger"></i>
+                    Signout</a></li>
+        </ul>
+    </nav>
+
+</header>

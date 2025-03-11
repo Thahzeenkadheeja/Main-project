@@ -1,0 +1,383 @@
+<main class="main">
+    <style>
+        .accordion-button:not(.collapsed) {
+            color: var(--bs-accordion-active-color);
+            background-color: transparent !important;
+            box-shadow: inset 0 calc(-1* var(--bs-accordion-border-width)) 0 var(--bs-accordion-border-color);
+        }
+    </style>
+    <div class="container">
+
+
+        <section class="section">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h3>All Time Tables</h3> <br>
+
+                    <div class="card p-3 shadow">
+
+                        <div class="accordion" id="accordionExample">
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                        <b>Class 1</b>
+                                    </button>
+                                </h2>
+                                <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5 class="card-title mb-3">All Timetable of Class 1</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Day</th>
+
+                                                        <th>Period 1</th>
+                                                        <th>Period 2</th>
+                                                        <th>Period 3</th>
+                                                        <th>Period 4</th>
+                                                        <th>Period 5</th>
+                                                        <th>Period 6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each timetablesc1}}
+                                                    <tr>
+                                                        <td><b>{{this.day}}</b></td>
+
+                                                        <td>{{this.teacher1}} </td>
+                                                        <td>{{this.teacher2}}</td>
+                                                        <td>{{this.teacher3}}</td>
+                                                        <td>{{this.teacher4}}</td>
+                                                        <td>{{this.teacher5}}</td>
+                                                        <td>{{this.teacher6}}</td>
+
+
+
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                                        <b>Class 2</b>
+                                    </button>
+                                </h2>
+                                <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5 class="card-title mb-3">All Timetable of Class 2</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Day</th>
+
+                                                        <th>Period 1</th>
+                                                        <th>Period 2</th>
+                                                        <th>Period 3</th>
+                                                        <th>Period 4</th>
+                                                        <th>Period 5</th>
+                                                        <th>Period 6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each timetablesc2}}
+                                                    <tr>
+                                                        <td><b>{{this.day}}</b></td>
+
+                                                        <td>{{this.teacher1}} </td>
+                                                        <td>{{this.teacher2}}</td>
+                                                        <td>{{this.teacher3}}</td>
+                                                        <td>{{this.teacher4}}</td>
+                                                        <td>{{this.teacher5}}</td>
+                                                        <td>{{this.teacher6}}</td>
+
+
+
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                                        <b>Class 3</b>
+                                    </button>
+                                </h2>
+                                <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5 class="card-title mb-3">All Timetable of Class 3</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Day</th>
+
+                                                        <th>Period 1</th>
+                                                        <th>Period 2</th>
+                                                        <th>Period 3</th>
+                                                        <th>Period 4</th>
+                                                        <th>Period 5</th>
+                                                        <th>Period 6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each timetablesc3}}
+                                                    <tr>
+                                                        <td><b>{{this.day}}</b></td>
+
+                                                        <td>{{this.teacher1}} </td>
+                                                        <td>{{this.teacher2}}</td>
+                                                        <td>{{this.teacher3}}</td>
+                                                        <td>{{this.teacher4}}</td>
+                                                        <td>{{this.teacher5}}</td>
+                                                        <td>{{this.teacher6}}</td>
+
+
+
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                                        <b>Class 4</b>
+                                    </button>
+                                </h2>
+                                <div id="collapse4" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5 class="card-title mb-3">All Timetable of Class 4</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Day</th>
+
+                                                        <th>Period 1</th>
+                                                        <th>Period 2</th>
+                                                        <th>Period 3</th>
+                                                        <th>Period 4</th>
+                                                        <th>Period 5</th>
+                                                        <th>Period 6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each timetablesc4}}
+                                                    <tr>
+                                                        <td><b>{{this.day}}</b></td>
+
+                                                        <td>{{this.teacher1}} </td>
+                                                        <td>{{this.teacher2}}</td>
+                                                        <td>{{this.teacher3}}</td>
+                                                        <td>{{this.teacher4}}</td>
+                                                        <td>{{this.teacher5}}</td>
+                                                        <td>{{this.teacher6}}</td>
+
+
+
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                                        <b>Class 5</b>
+                                    </button>
+                                </h2>
+                                <div id="collapse5" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5 class="card-title mb-3">All Timetable of Class 5</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Day</th>
+
+                                                        <th>Period 1</th>
+                                                        <th>Period 2</th>
+                                                        <th>Period 3</th>
+                                                        <th>Period 4</th>
+                                                        <th>Period 5</th>
+                                                        <th>Period 6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each timetablesc5}}
+                                                    <tr>
+                                                        <td><b>{{this.day}}</b></td>
+
+                                                        <td>{{this.teacher1}} </td>
+                                                        <td>{{this.teacher2}}</td>
+                                                        <td>{{this.teacher3}}</td>
+                                                        <td>{{this.teacher4}}</td>
+                                                        <td>{{this.teacher5}}</td>
+                                                        <td>{{this.teacher6}}</td>
+
+
+
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse6" aria-expanded="true" aria-controls="collapse6">
+                                        <b>Class 6</b>
+                                    </button>
+                                </h2>
+                                <div id="collapse6" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5 class="card-title mb-3">All Timetable of Class 6</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Day</th>
+
+                                                        <th>Period 1</th>
+                                                        <th>Period 2</th>
+                                                        <th>Period 3</th>
+                                                        <th>Period 4</th>
+                                                        <th>Period 5</th>
+                                                        <th>Period 6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each timetablesc6}}
+                                                    <tr>
+                                                        <td><b>{{this.day}}</b></td>
+
+                                                        <td>{{this.teacher1}} </td>
+                                                        <td>{{this.teacher2}}</td>
+                                                        <td>{{this.teacher3}}</td>
+                                                        <td>{{this.teacher4}}</td>
+                                                        <td>{{this.teacher5}}</td>
+                                                        <td>{{this.teacher6}}</td>
+
+
+
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapse7" aria-expanded="true" aria-controls="collapse7">
+                                        <b>Class 7</b>
+                                    </button>
+                                </h2>
+                                <div id="collapse7" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <h5 class="card-title mb-3">All Timetable of Class 7</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Day</th>
+
+                                                        <th>Period 1</th>
+                                                        <th>Period 2</th>
+                                                        <th>Period 3</th>
+                                                        <th>Period 4</th>
+                                                        <th>Period 5</th>
+                                                        <th>Period 6</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {{#each timetablesc7}}
+                                                    <tr>
+                                                        <td><b>{{this.day}}</b></td>
+
+                                                        <td>{{this.teacher1}} </td>
+                                                        <td>{{this.teacher2}}</td>
+                                                        <td>{{this.teacher3}}</td>
+                                                        <td>{{this.teacher4}}</td>
+                                                        <td>{{this.teacher5}}</td>
+                                                        <td>{{this.teacher6}}</td>
+
+
+
+                                                    </tr>
+                                                    {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </section>
+    </div>
+</main>

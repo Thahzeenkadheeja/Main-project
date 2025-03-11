@@ -1,0 +1,130 @@
+<style>
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    body {
+        background-image: url('/images/img/bg.png');
+    }
+</style>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a href="#" class="navbar-brand"><span class="text-danger"><b>Edu</span>Nest</b></a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            {{!-- <div class="navbar-nav">
+                <a href="#" class="nav-item nav-link active">Home</a>
+                <a href="#" class="nav-item nav-link">Profile</a>
+                <a href="#" class="nav-item nav-link">Messages</a>
+                <a href="#" class="nav-item nav-link disabled" tabindex="-1">Reports</a>
+            </div> --}}
+            <div class="navbar-nav ms-auto">
+                <a href="/admin" class="nav-item nav-link">Login as Admin</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="container ">
+    <br><br><br>
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+        <div class="col-xl-5 col-lg-5 col-md-9">
+
+            <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card-body p-0">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Welcome Student!</h1>
+                                </div>
+                                {{#if signInErr}}
+
+                                <p class="text-danger text-center ">{{signInErr}}</p>
+
+                                {{/if}}
+                                <form action="/signin" method="POST" class="user">
+                                    <div class="form-group">
+                                        <label for="">Your Email</label>
+                                        <input type="email" class="form-control form-control-user"
+                                            id="exampleInputEmail" aria-describedby="emailHelp" name="Email"
+                                            value="{{email}}" placeholder="Your Email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Your Password</label>
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" name="Password" value="{{password}}"
+                                                placeholder="Enter Password">
+                                            <button type="button" class="btn btn-outline-secondary" id="togglePassword">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-dark w-100 btn-user btn-block">
+                                        Login
+                                    </button>
+
+                                </form>
+                                <a href="/signup" class="btn btn-primary mt-2 w-100 btn-block">
+                                    Create an Account!
+                                </a>
+                                <hr>
+                                {{!-- <div class="text-center">
+                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                </div> --}}
+
+
+                                {{!-- <a href="/parents/signin" class="btn btn-secondary mb-2 w-100 btn-block">
+                                    Login as Parents!
+                                </a> --}}
+                                <a href="/teacher/signin" class="btn btn-secondary w-100 btn-block">
+                                    Login as Teacher!
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</body>
+
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        const passwordField = document.getElementById("exampleInputPassword");
+        const icon = this.querySelector("i");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordField.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    });
+</script>

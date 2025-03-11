@@ -1,0 +1,95 @@
+<main class="main">
+
+    <div class="container">
+
+        <!-- Stats Section -->
+        <section id="stats" class="stats section">
+
+            <div class="container" "fade-up" "100">
+                <h4 class="">Hey {{teacher.Companyname}}</h4>
+                {{#if teacher.subjectDetails}}
+                <p class="mb-0">Subject: {{teacher.subjectDetails.sname}}</p>
+                <p>Subject Code: {{teacher.subjectDetails.scode}}</p>
+                {{else}}
+                <p>No subject assigned</p>
+                {{/if}}
+                <div class="row gy-4 mt-3">
+
+                    {{!-- <div class="col-lg-6 col-md-6">
+                        <a href="">
+                            <div class="card shadow ">
+                                <div class="stats-item">
+                                    <i class="bi bi-people"></i>
+                                    <p><strong>Students Attendence</strong> <span></span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div> --}}
+                    <div class="col-lg-6 col-md-6">
+                        <a href="/teacher/all-attendance">
+                            <div class="card shadow ">
+                                <div class="stats-item">
+                                    <i class="bi bi-people"></i>
+                                    <p><strong>Students Attendence</strong> <span></span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-6">
+                        <a href="/teacher/homework">
+                            <div class="card shadow ">
+                                <div class="stats-item">
+                                    <i class="bi bi-book"></i>
+                                    <p><strong>Home Work</strong> <span></span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <a href="/teacher/all-exam">
+                            <div class="card shadow ">
+                                <div class="stats-item">
+                                    <i class="bi bi-pen"></i>
+                                    <p><strong>Schedule an exam</strong> <span></span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+
+                    <div class="col-lg-6 col-md-6">
+                        <a href="/teacher/timetable">
+                            <div class="card shadow ">
+                                <div class="stats-item">
+                                    <i class="bi bi-table"></i>
+                                    <p><strong>Time Table</strong> <span></span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-6">
+                        <a href="/teacher/notifications">
+                            <div class="card shadow ">
+                                <div class="stats-item">
+                                    <i class="bi bi-bell"></i>
+                                    <p><strong>Notifications</strong> <span></span></p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </section><!-- /Stats Section -->
+
+    </div>
+</main>

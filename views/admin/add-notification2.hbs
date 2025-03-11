@@ -1,0 +1,35 @@
+<main id="main" class="main">
+
+    <section>
+        <div class="container my-5">
+            <h4 class="mb-4">Send Notification to Studends</h4>
+            <hr>
+
+
+
+            <h5 class="mb-2">Send Notification to Students</h5>
+            <form action="/admin/add-notification2" method="post">
+                <input type="hidden" name="by" value="Admin">
+                <input type="hidden" name="for" value="Students">
+                <label>Select Teacher</label>
+                <select class="form-select" name="userId" aria-label="Default select example"
+                    style="color: black; background-color: white;">
+                    <option selected disabled>Select Students</option>
+                    {{#each users}}
+                    <option value="{{this._id}}">{{this.Fname}}</option>
+                    {{/each}}
+                </select>
+
+                <label class="mt-3">Message</label>
+                <textarea type="text" name="message" class="form-control"></textarea>
+                <button class="btn btn-dark mt-3" type="submit">Send Message</button>
+            </form>
+
+
+
+
+
+        </div>
+    </section>
+
+</main>

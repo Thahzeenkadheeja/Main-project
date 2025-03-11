@@ -1,0 +1,72 @@
+]
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Manage Exams</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item">Exam</li>
+                <li class="breadcrumb-item active">All-Exam</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+
+
+
+
+    <section class="section">
+        {{!-- <a href="/admin/add-notification" class="btn btn-dark btn-sm mb-3">Send Notification to Teachers</a>
+        <a href="/admin/add-notification2" class="btn btn-dark btn-sm mb-3">Send Notification to Users</a> --}}
+
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">All Exams</h5>
+                        <div class="table-responsive">
+                            <table class="table" id="table">
+                                <thead class="table-dark">
+                                    <tr class="align-middle">
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Teacher Name</th>
+                                        <th scope="col">Exam Details</th>
+                                        <th scope="col">Exam Date</th>
+                                        <th scope="col">Delete</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {{#each exams}}
+                                    <tr class="align-middle">
+                                        <td>{{formatDate this.createdAt}}</td>
+                                        <td>{{this.teacher}}</td>
+                                        <td>Ch No.{{this.no}} | {{this.name}}</td>
+                                        <td>{{this.deadline}}</td>
+
+                                        <td>
+                                            <a href="/admin/delete-notification/{{this._id}}"
+                                                onclick="return confirm('Are You Sure to Delete This ?')"
+                                                class="btn btn-danger">Delete</a>
+                                        </td>
+
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </div>
+    </section>
+
+</main><!-- End #main -->

@@ -1,0 +1,148 @@
+<style>
+    .custum-file-upload {
+        height: 200px;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: space-between;
+        gap: 20px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #cacaca;
+        background-color: rgba(255, 255, 255, 1);
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+    }
+
+    .custum-file-upload .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custum-file-upload .icon svg {
+        height: 80px;
+        fill: rgba(75, 85, 99, 1);
+    }
+
+    .custum-file-upload .text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custum-file-upload .text span {
+        font-weight: 400;
+        color: rgba(75, 85, 99, 1);
+    }
+
+    .custum-file-upload input {
+        display: none;
+    }
+</style>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Add Time Table For Class 1</h1>
+
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <form action="/admin/class-1" method="post">
+                            <input type="hidden" name="Class" value="1">
+                            <div class="col-md-12">
+                                <label for="inputName5" class="form-label">Select Day</label>
+                                <select class="form-control form-control" name="day">
+                                    <option selected disabled> Select Day</option>
+                                    <option value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                </select>
+                            </div>
+
+                            <!-- Teacher Selection for each period -->
+                            <div class="col-md-12 mt-3">
+                                <label for="inputName5" class="form-label"><b>1st Period</b></label>
+                                <select class="form-control form-control" name="teacher1">
+                                    <option selected disabled> Select Teacher</option>
+                                    {{#each teachers}}
+                                    <option value="{{this._id}}"> {{this.Companyname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 mt-3">
+                                <label for="inputName5" class="form-label"><b>2nd Period</b></label>
+                                <select class="form-control form-control" name="teacher2">
+                                    <option selected disabled> Select Teacher</option>
+                                    {{#each teachers}}
+                                    <option value="{{this._id}}"> {{this.Companyname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 mt-3">
+                                <label for="inputName5" class="form-label"><b>3rd Period</b></label>
+                                <select class="form-control form-control" name="teacher3">
+                                    <option selected disabled> Select Teacher</option>
+                                    {{#each teachers}}
+                                    <option value="{{this._id}}"> {{this.Companyname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 mt-3">
+                                <label for="inputName5" class="form-label"><b>4th Period</b></label>
+                                <select class="form-control form-control" name="teacher4">
+                                    <option selected disabled> Select Teacher</option>
+                                    {{#each teachers}}
+                                    <option value="{{this._id}}"> {{this.Companyname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 mt-3">
+                                <label for="inputName5" class="form-label"><b>5th Period</b></label>
+                                <select class="form-control form-control" name="teacher5">
+                                    <option selected disabled> Select Teacher</option>
+                                    {{#each teachers}}
+                                    <option value="{{this._id}}"> {{this.Companyname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                            <div class="col-md-12 mt-3">
+                                <label for="inputName5" class="form-label"><b>6th Period</b></label>
+                                <select class="form-control form-control" name="teacher6">
+                                    <option selected disabled> Select Teacher</option>
+                                    {{#each teachers}}
+                                    <option value="{{this._id}}"> {{this.Companyname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/admin/timetable/all-timetables" class="btn me-3 btn-secondary"
+                            data-dismiss="modal">Close</a>
+                        <button type="submit" class="btn btn-primary">Add</button>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+</main><!-- End #main -->

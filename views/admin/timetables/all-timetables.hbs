@@ -1,0 +1,104 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Manage Timetable</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item">Timetable</li>
+                <li class="breadcrumb-item active">All-Timetable</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">All Timetable</h5>
+                        <button type="button" class="btn btn-primary mb-4" data-toggle="modal"
+                            data-target="#exampleModalCenter">
+                            + Add Timetable
+                        </button>
+                        <div class="table-responsive">
+                            <table class="table border table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Day</th>
+
+                                        <th>Period 1</th>
+                                        <th>Period 2</th>
+                                        <th>Period 3</th>
+                                        <th>Period 4</th>
+                                        <th>Period 5</th>
+                                        <th>Period 6</th>
+                                        <th>Manage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each timetables}}
+                                    <tr>
+                                        <td><b>{{this.day}}</b></td>
+
+                                        <td>{{this.teacher1}} </td>
+                                        <td>{{this.teacher2}}</td>
+                                        <td>{{this.teacher3}}</td>
+                                        <td>{{this.teacher4}}</td>
+                                        <td>{{this.teacher5}}</td>
+                                        <td>{{this.teacher6}}</td>
+
+                                        <td>
+                                            <div class="d-flex gap-2">
+
+                                                <form action="/admin/delete-timetable/{{this._id}}" method="POST">
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Are You Sure to Delete {{this.sname}} ?')"><i
+                                                            class="bi bi-trash"></i></button>
+                                                </form>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+
+
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Select Class</h5>
+            </div>
+            <div class="modal-body">
+                <a href="/admin/timetable/class-1" class="btn btn-dark mb-2">Class 1</a>
+                <a href="/admin/timetable/class-2" class="btn btn-dark mb-2">Class 2</a>
+                <a href="/admin/timetable/class-3" class="btn btn-dark mb-2">Class 3</a>
+                <a href="/admin/timetable/class-4" class="btn btn-dark mb-2">Class 4</a>
+                <a href="/admin/timetable/class-5" class="btn btn-dark mb-2">Class 5</a>
+                <a href="/admin/timetable/class-6" class="btn btn-dark mb-2">Class 6</a>
+                <a href="/admin/timetable/class-7" class="btn btn-dark mb-2">Class 7</a>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

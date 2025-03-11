@@ -1,0 +1,32 @@
+<main id="main" class="main">
+
+    <section>
+        <div class="container my-5">
+            <h4 class="mb-4">Send Anouncement</h4>
+            <hr>
+
+
+
+
+            <form action="/admin/add-anouncement" method="post">
+                <input type="hidden" name="by" value="Admin">
+                <input type="hidden" name="for" value="All"><br>
+                <label>Title</label>
+                <input type="text" name="title" class="form-control" required>
+                <label>Sub Title</label>
+                <input type="text" name="subtitle" class="form-control" required>
+                <label class="mt-3">Message</label>
+                <textarea type="text" name="message" class="form-control"></textarea>
+                <button class="btn btn-dark mt-3" type="submit">Send Anouncement</button>
+            </form>
+
+
+
+
+
+
+
+        </div>
+    </section>
+
+</main>

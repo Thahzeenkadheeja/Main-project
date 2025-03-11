@@ -1,0 +1,98 @@
+<main id="main" class="main">
+
+    <section>
+        <div class="container my-5">
+            <h4 class="mb-4">Send Notification to Teachers</h4>
+            <hr>
+
+
+
+            {{!-- <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-headingOne">
+                        <button class="accordion-button collapsed p-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Send Notification to Teachers
+                        </button>
+                    </h2>
+                    <div id="flush-collapseOne" class="accordion-collapse collapse p-3"
+                        aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <form action="/admin/add-notification" method="post">
+                                <input type="hidden" name="by" value="Admin">
+                                <label>Select User</label>
+                                <select class="form-select" name="userId" aria-label="Default select example"
+                                    style="color: black; background-color: white;">
+                                    <option selected disabled>Select User</option>
+                                    {{#each users}}
+                                    <option value="{{this._id}}">{{this.Fname}}</option>
+                                    {{/each}}
+                                </select>
+
+                                <label class="mt-3">Message</label>
+                                <textarea type="text" name="message" class="form-control"></textarea>
+                                <button class="btn btn-dark mt-3" type="submit">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header p-3" id="flush-headingTwo">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                            Send Notification to Studends
+                        </button>
+                    </h2>
+                    <div id="flush-collapseTwo" class="accordion-collapse collapse p-3"
+                        aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
+                        <div class="accordion-body">
+                            <form action="/admin/add-notification" method="post">
+                                <input type="hidden" name="by" value="Admin">
+                                <label>Select User</label>
+                                <select class="form-select" name="userId" aria-label="Default select example">
+                                    <option selected>Select User</option>
+                                    {{#each users}}
+                                    <option value="{{this._id}}">{{this.Fname}}</option>
+                                    {{/each}}
+                                </select>
+                                <label class="mt-3">Message</label>
+                                <textarea type="text" name="message" class="form-control"></textarea>
+                                <button class="btn btn-dark mt-3" type="submit">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div> --}}
+
+
+            <h5 class="mb-2">Send Notification to Teachers</h5>
+            <form action="/admin/add-notification" method="post">
+                <input type="hidden" name="by" value="Admin">
+                <input type="hidden" name="for" value="Teachers">
+                <label>Select Teacher</label>
+                <select class="form-select" name="teacherId" aria-label="Default select example"
+                    style="color: black; background-color: white;">
+                    <option selected disabled>Select Teacher</option>
+                    {{!-- <option value="all">All Teachers</option> --}}
+
+                    {{#each teachers}}
+                    <option value="{{this._id}}">{{this.Companyname}}</option>
+                    {{/each}}
+                </select>
+
+                <label class="mt-3">Message</label>
+                <textarea type="text" name="message" class="form-control"></textarea>
+                <button class="btn btn-dark mt-3" type="submit">Send Message</button>
+            </form>
+
+
+
+
+
+
+
+        </div>
+    </section>
+
+</main>
