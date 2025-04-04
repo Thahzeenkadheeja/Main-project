@@ -1,0 +1,123 @@
+<main id="main" class="main">
+
+  <div class="container">
+    <h2>Student Attendance Performance Report</h2>
+
+    {{!-- <canvas id="attendanceChart"></canvas>
+
+
+    <br>
+    <br> --}}
+    <div class="card p-3 shadow">
+
+
+      <!-- Date Range Filter -->
+      <form id="filterForm">
+        <label for="fromDate">From:</label>
+        <input type="date" class="form-control" id="fromDate" name="fromDate" required>
+
+        <label for="toDate">To:</label>
+        <input type="date" class="form-control" id="toDate" name="toDate" required>
+
+        <label for="studentName">Student:</label>
+        <select id="studentName" class="form-control" name="studentName">
+          <option value="">All Students</option>
+          {{#each studentList}}
+          <option value="{{this.name}}">{{this.name}}</option>
+          {{/each}}
+        </select>
+        <button class="btn btn-dark mt-3" type="submit">Filter</button>
+        <button class="btn btn-primary mt-3" onclick="window.print();">Generate Report</button>
+
+      </form>
+      <br>
+
+      <!-- Attendance Report Table -->
+      <table class="table datatable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Student Name</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="attendanceTable">
+          {{#each attendanceData}}
+          {{#each students}}
+          <tr>
+            <td>{{../date}}</td>
+            <td>{{this.name}}</td>
+            <td style="color: {{#if this.isPresent}}green{{else}}red{{/if}}">
+              {{#if this.isPresent}}Present{{else}}Absent{{/if}}
+            </td>
+          </tr>
+          {{/each}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const attendanceData = JSON.parse('{{{attendanceData}}}');
+
+      // Attendance Performance Line Chart (Using Date)
+      const attendanceDates = attendanceData.map(a => a.date);
+      const presentCounts = attendanceData.map(a => a.presentCount);
+      const absentCounts = attendanceData.map(a => a.absentCount);
+
+      const attendanceCtx = document.getElementById("attendanceChart").getContext("2d");
+      new Chart(attendanceCtx, {
+        type: "line",
+        data: {
+          labels: attendanceDates, // Using date instead of student names
+          datasets: [
+            {
+              label: "Present Count",
+              data: presentCounts,
+              borderColor: "rgba(75, 192, 192, 1)",
+              backgroundColor: "rgba(75, 192, 192, 0.2)",
+              borderWidth: 2,
+              fill: true
+            },
+            {
+              label: "Absent Count",
+              data: absentCounts,
+              borderColor: "rgba(255, 99, 132, 1)",
+              backgroundColor: "rgba(255, 99, 132, 0.2)",
+              borderWidth: 2,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+
+    });
+  </script>
+  </div>
+
+  <script>
+    document.getElementById("filterForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const fromDate = document.getElementById("fromDate").value;
+      const toDate = document.getElementById("toDate").value;
+      const studentName = document.getElementById("studentName").value;
+
+      window.location.href = `/admin/attendance-performance?fromDate=${fromDate}&toDate=${toDate}&studentName=${studentName}`;
+    });
+  </script>
+
+</main><!--End #main -->

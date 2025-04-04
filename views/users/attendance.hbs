@@ -23,10 +23,11 @@
                                 <table class="table datatable table-bordered border">
                                     <thead>
                                         <tr>
-                                            <th>No.</th>
                                             <th data-type="date" data-format="YYYY/DD/MM"> Date</th>
-                                            <th>Subject Details</th>
-                                            {{!-- <th>Attended Students</th> --}}
+                                            <th>Period</th>
+                                            <th>Class</th>
+                                            <th>Subject</th>
+                                            <th>Attended Stauts</th>
 
                                             {{!-- <th>Manage</th> --}}
                                         </tr>
@@ -34,29 +35,17 @@
                                     <tbody>
                                         {{#each attendance}}
                                         <tr>
-                                            <td>{{incremented @index}}</td>
                                             <td>{{formatDate this.date}}</td>
+                                            <td>{{this.period}}</td>
+                                            <td>{{this.Class}}</td>
+                                            <td>{{this.subjectName}}</td>
                                             <td>
-                                                {{!-- <p class="mb-0"><b>Teacher : </b> {{this.teacherName}}</p> --}}
-                                                <p class="mb-0"><b>Subject : </b> {{this.subject}}</p>
-                                            </td>
-                                            {{!-- <td> {{#each selectedUsers}}
-                                                {{this}} ,
+                                                {{#if this.isPresent}}
+                                                <span style="color: green;">✅ Present</span>
                                                 {{else}}
-                                                <li>No users selected</li>
-                                                {{/each}}
-                                            </td> --}}
-
-                                            {{!-- <td>
-                                                <div class="d-flex gap-2">
-
-                                                    <form action="/admin/delete-attendance/{{this._id}}" method="POST">
-                                                        <button type="submit" class="btn btn-danger btn-sm"><i
-                                                                class="bi bi-trash"></i></button>
-                                                    </form>
-                                                </div>
-                                            </td> --}}
-
+                                                <span style="color: red;">❌ Absent</span>
+                                                {{/if}}
+                                            </td>
                                         </tr>
                                         {{/each}}
                                     </tbody>

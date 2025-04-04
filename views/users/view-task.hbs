@@ -1,166 +1,112 @@
 <main class="main pt-5">
     <div class="container">
-        <div class="container-lg">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="card product-details-card mb-3">
-                        <div class="card-body">
-                            <div class="product-gallery-wrapper">
-                                <div class="product-gallery"><a href="/images/task-images/{{task._id}}-1.png"><img
-                                            class="rounded" width="100%" src="/images/task-images/{{task._id}}-1.png"
-                                            alt=""></a>
-                                </div>
-                            </div>
-                        </div>
+        <div class="row">
+            <!-- Task Image Section -->
+            {{!-- <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <a href="/images/task-images/{{task._id}}-1.png">
+                            <img class="rounded img-fluid" src="/images/task-images/{{task._id}}-1.png" alt="Task Image">
+                        </a>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="card product-details-card mb-3 direction-rtl">
-                        <div class="card-body">
-                            <h5>Chapter No.{{task.no}}</h5>
-                            <h3>{{task.name}}</h3>
+            </div> --}}
+            
 
-                            <h5>Note</h5>
-                            <p>{{task.note}}</p>
-
-                            <hr>
-                            <h5>Requirments</h5>
-                            <p>{{task.req}}</p>
-                            <hr>
-                            <div class="input-group">
-                                <a href="#!" class="btn btn-dark w-100 mt-4 ">
-                                    Added Date : {{formatDate task.date}}
-                                </a>
-                            </div>
-
-                            <div class="input-group">
-                                <a href="#!" class="btn btn-danger w-100 mt-1 ">
-                                    Deadline : {{formatDate task.deadline}}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    {{!-- <div class="card product-details-card mb-3 direction-rtl">
-                        <div class="card-body">
-                            <h5>Amenities</h5>
-                            <p>{{{task.amenities}}}</p>
-                        </div>
-                    </div> --}}
-                </div>
-
-            </div>
-
-            <div class="card p-5">
-                <div class="row g-5">
-                    <div class="col-lg-4">
-                        <h5>Submit Your Assignment</h5>
-                        <hr>
-                        {{#if user}}
-                        <form action="/add-assignment" enctype="multipart/form-data" method="post" class="mb-3">
-                            <input type="hidden" name="taskId" value={{task._id}}>
-                            <input type="hidden" name="builderId" value={{task.builderId}}>
-
-                            <!-- Hidden field for task ID -->
-                            <label for="" class="mb-2">Your name</label>
-                            <input class="form-control mb-4" type="text" name="username" value={{user.Fname}}
-                                {{user.Lname}} readonly>
-
-                            <label for="" class="mb-2">Upload Your Assignment</label>
-                            <input class="form-control" type="file" name="image">
-
-
-                            <label for="" class="mb-2 mt-3">Any Note</label>
-                            <textarea class="form-control " type="text" name="text" required
-                                placeholder="Write anything..."></textarea>
-                            <button type="submit" class="btn btn-dark mt-3 w-100">Submit</button>
-                        </form>
-                        {{else}}
-                        <a href="/signin" class="btn btn-dark">Please login to add your reviews</a>
-                        {{/if}}
-                    </div>
-                    <div class="col-lg-8">
-                        <div class="feedback-section ">
-                            <h5>Assignment Status</h5>
-                            <hr>
-                            {{#each feedbacks}}
-                            <div class="card p-3 shadow mb-2">
-
-                                <p>
-                                    <strong class="">{{this.username}} - </strong> Submitted on {{formatDate
-                                    this.createdAt}}<br>
-                                </p>
-                            </div>
-                            {{else}}
-                            <p>Nobody Submitted The Assignment.</p>
-                            {{/each}}
-                        </div>
+            <!-- Task Details Section -->
+            <div class="col-lg-6">
+                <div class="card shadow-lg border-0 rounded-lg mb-4 p-4">
+                    <h5 class="text-primary">Chapter No. {{task.no}}</h5>
+                    <h3 class="fw-bold">{{task.name}}</h3>
+                    <hr>
+                    <h5 class="text-secondary">Note</h5>
+                    <p class="text-muted">{{task.note}}</p>
+                    <hr>
+                    <h5 class="text-secondary">Requirements</h5>
+                    <p class="text-muted">{{task.req}}</p>
+                    <hr>
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-outline-dark fw-bold">📅 Added Date: {{formatDate task.date}}</button>
+                        <button class="btn btn-outline-danger fw-bold">⏳ Deadline: {{formatDate task.deadline}}</button>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
 
-    </div>
+        <!-- Assignment Submission & Status Section -->
+        <div class="card shadow-lg border-0 rounded-lg p-5 mt-4">
+            <div class="row g-5">
+                <!-- Submission Form -->
+                <div class="col-lg-4">
+                    <h5 class="text-success">📤 Submit Your Assignment</h5>
+                    <hr>
+                    {{#if user}}
+                    <form action="/add-assignment" enctype="multipart/form-data" method="post" class="bg-light p-3 rounded shadow-sm">
+                        <input type="hidden" name="taskId" value="{{task._id}}">
+                        <input type="hidden" name="teacherId" value="{{task.teacherId}}">
+                        
+                        <label class="mb-2 fw-bold">Your Name</label>
+                        <input class="form-control mb-3" type="text" name="username" value="{{user.Fname}} {{user.Lname}}" readonly>
+
+                        <label class="mb-2 fw-bold">Upload Your Assignment</label>
+                        <input class="form-control mb-3" type="file" name="image">
+
+                        <label class="mb-2 fw-bold">Any Note</label>
+                        <textarea class="form-control mb-3" name="text" placeholder="Write anything..." required></textarea>
+                        
+                        <button type="submit" class="btn btn-success w-100 fw-bold">✅ Submit</button>
+                    </form>
+                    {{else}}
+                    <a href="/signin" class="btn btn-warning w-100 fw-bold">🔑 Please login to submit your assignment</a>
+                    {{/if}}
+                </div>
+                
+                <!-- Assignment Status -->
+                <div class="col-lg-8">
+                    <h5 class="text-info">📜 Assignment Status</h5>
+                    <hr>
+                    <div class="feedback-section">
+                        {{#each feedbacks}}
+                        <div class="card border-start border-info p-3 shadow-sm mb-3">
+                            <p><strong class="text-primary">{{this.username}}</strong> - Submitted on {{formatDate this.createdAt}}</p>
+                        </div>
+                        {{else}}
+                        <p class="text-muted">🚫 No assignments submitted yet.</p>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </main>
 
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Select the "Book Now" button
         const buyNowButton = document.querySelector('.buy-now');
-
         if (buyNowButton) {
             const seatsAvailable = parseInt(buyNowButton.getAttribute('data-seats'), 10);
-
             if (seatsAvailable === 0) {
-                buyNowButton.disabled = true; // Disable the button if sold out
-                buyNowButton.textContent = 'Sold Out'; // Change button text
-                buyNowButton.classList.add('disabled'); // Optionally add a disabled class for styling
+                buyNowButton.disabled = true;
+                buyNowButton.textContent = 'Sold Out';
+                buyNowButton.classList.add('disabled');
             } else {
                 buyNowButton.addEventListener('click', function () {
-                    buyNow(buyNowButton.getAttribute('data-id')); // Call the buyNow function
+                    buyNow(buyNowButton.getAttribute('data-id'));
                 });
             }
         }
     });
 
     function buyNow(taskId) {
-        // Your buy now logic here
-        alert('Booking task with ID: ' + taskId);
-        // Implement your booking logic (e.g., make an API call)
-    }
-</script>
-
-
-<script>
-    function buyNow(taskId) {
         window.location.href = '/place-order/' + taskId;
     }
 
-</script>
-
-<script>
     document.querySelectorAll('.date-cell').forEach(function (cell) {
-        const rawDate = cell.textContent;  // Get the original date string
-        const date = new Date(rawDate);    // Convert it to a Date object
-
-        // Format the date (e.g., 12 Oct 2024 | 11:50)
-        const formattedDate = date.toLocaleDateString('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric'
+        const date = new Date(cell.textContent);
+        cell.textContent = date.toLocaleDateString('en-GB', {
+            day: '2-digit', month: 'short', year: 'numeric'
+        }) + ' | ' + date.toLocaleTimeString('en-GB', {
+            hour: '2-digit', minute: '2-digit'
         });
-
-        const formattedTime = date.toLocaleTimeString('en-GB', {
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-
-        // Set the formatted date and time back in the cell
-        cell.textContent = `${formattedDate} | ${formattedTime}`;
     });
-
 </script>

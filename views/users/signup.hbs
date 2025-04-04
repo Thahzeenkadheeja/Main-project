@@ -43,6 +43,8 @@
                         <div class="row g-1">
                             <div class="col-lg-6">
                                 <div class="form-group">
+                                    <label>Your First Name</label>
+
                                     <input class="form-control" type="text" name="Fname" value="{{Fname}}"
                                         placeholder="Your First Name" pattern="[A-Za-z\s]+"
                                         title="Only letters are allowed">
@@ -50,6 +52,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
+                                <label>Your Last Name</label>
                                 <div class="form-group">
                                     <input class="form-control" type="text" name="Lname" value="{{Lname}}"
                                         placeholder="Your Last Name" pattern="[A-Za-z\s]+"
@@ -59,16 +62,19 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label>Your Email</label>
                             <input class="form-control" type="email" name="Email" value="{{Email}}"
                                 placeholder="Your Email">
                             {{#if errors.email}}<div class="text-danger">{{errors.email}}</div>{{/if}}
                         </div>
                         <div class="form-group">
+                            <label>Your Phone Number</label>
                             <input class="form-control" type="number" name="Phone" value="{{Phone}}"
                                 placeholder="Your Phone Number">
                             {{#if errors.phone}}<div class="text-danger">{{errors.phone}}</div>{{/if}}
                         </div>
                         <div class="form-group">
+                            <label>Your Password</label>
                             <div class="input-group">
                                 <input type="password" class="form-control form-control-user" id="exampleInputPassword"
                                     name="Password" value="{{Password}}" placeholder="Enter Password">
@@ -85,6 +91,7 @@
                         <hr>
 
                         <div class="form-group">
+                            <label>Your Address</label>
                             <textarea class="form-control" name="Address"
                                 placeholder="Your Address">{{Address}}</textarea>
                             {{#if errors.address}}<div class="text-danger">{{errors.address}}</div>{{/if}}
@@ -152,13 +159,13 @@
                         <label for="" class="mt-2">Your Class</label>
                         <select class="form-select" name="Class" aria-label="Default select example" required>
                             <option selected disabled>Select Class</option>
-                            <option value="1st">1st</option>
-                            <option value="2nd">2nd</option>
-                            <option value="3rd">3rd</option>
-                            <option value="4th">4th</option>
-                            <option value="5th">5th</option>
-                            <option value="6th">6th</option>
-                            <option value="7th">7th</option>
+                            <option value="1">1st</option>
+                            <option value="2">2nd</option>
+                            <option value="3">3rd</option>
+                            <option value="4">4th</option>
+                            <option value="5">5th</option>
+                            <option value="6">6th</option>
+                            <option value="7">7th</option>
 
                         </select>
 

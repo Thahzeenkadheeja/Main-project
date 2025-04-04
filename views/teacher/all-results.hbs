@@ -1,0 +1,96 @@
+<main class="main pt-5">
+
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mt-3 mb-3">Manage Your Results</h4>
+            <a href="/teacher/add-result" class="btn btn-dark">+ Add New Result</a>
+        </div>
+        <div class="card">
+            <div class="card-body">
+
+
+
+                <h5 class="card-title">All Results</h5>
+
+
+
+                <div class="table-responsive">
+                    <!-- Table with stripped rows -->
+                    <table class="table table-bordered datatable">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th data-type="date" data-format="YYYY/DD/MM">Added Date</th>
+                                <th>Class</th>
+                                <th>Subject Details</th>
+
+                                <th>Exam Details</th>
+                                <th>Student Details</th>
+
+                                <th>Mark</th>
+                                <th>Manage</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each results}}
+                            <tr>
+                                <td>{{incremented @index}}</td>
+                                <td>{{formatDate this.createdAt}}</td>
+                                <td>{{this.Class}}</td>
+                                <td>Subject : {{this.subject}}
+                                    <br> Teacher : {{this.teacherName}}
+                                </td>
+
+                                <td>
+                                    Chapter Name : {{this.examDetails.name}}<br>
+                                    To : Chapter - {{this.examDetails.to}} <br>
+                                    From : Chapter - {{this.examDetails.from}} <br>
+
+                                </td>
+
+                                <td>
+                                    Student Name : {{this.studentDetails.Fname}}<br>
+                                    Phone Number : {{this.studentDetails.Phone}}<br>
+
+                                </td>
+
+                                <td> {{this.Mark}}/{{this.Outof}}</td>
+
+                                <td>
+                                    <a href="/teacher/delete-result/{{this._id}}"
+                                        onclick="return confirm('Are You Sure to Delete {{this.studentDetails.Fname}} Marksheet ?')"
+                                        class="btn btn-danger btn-sm">Delete</a>
+
+                                </td>
+
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- End Table with stripped rows -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+    <script>
+        function deleteMaterial(id, wname) {
+            Swal.fire({
+                title: `Are you sure you want to delete "${wname}"?`,
+                text: '',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#33ff68',
+                cancelButtonColor: '#d29eee',
+                confirmButtonText: 'Yes!',
+                cancelButtonText: 'No'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the delete route if confirmed
+                    window.location.href = `/builder/delete-material/${id}`;
+                }
+            });
+        }
+    </script>

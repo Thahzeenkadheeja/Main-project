@@ -1,0 +1,233 @@
+<main class="main pt-5">
+
+    <div class="container">
+        <h4 class="mt-3 mb-3">Add New Result</h4>
+        <form action="/teacher/add-result" enctype="multipart/form-data" method="POST">
+            <input type="hidden" name="date" id="datetime">
+            {{#if teacher}}
+            <input type="hidden" value={{teacher.Companyname}} name="teacherName">
+            <input type="hidden" value={{teacher._id}} name="teacherId">
+            <input type="hidden" value={{teacher.subjectDetails.sname}} name="subject">
+
+
+            {{/if}}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="form-group w-100 mb-3">
+                                <label for="classSelect" class="mt-2">Select Class</label>
+                                <select id="classSelect" class="form-select" name="Class" required>
+                                    <option selected disabled value="">Select a Class</option>
+                                    <option value="1">1st</option>
+                                    <option value="2">2nd</option>
+                                    <option value="3">3rd</option>
+                                    <option value="4">4th</option>
+                                    <option value="5">5th</option>
+                                    <option value="6">6th</option>
+                                    <option value="7">7th</option>
+                                </select>
+                            </div>
+
+                            <!-- Show Details Button -->
+                            <button id="showDetailsBtn" type="button" class="btn btn-dark mb-4">Show Details</button>
+                            <br>
+
+                            <hr>
+                            <!-- Containers for displaying fetched results -->
+                            <!-- Exam Dropdown -->
+                            <label for="examSelect" class="mt-2">Select Exam</label>
+                            <select id="examSelect" class="form-select mb-3" name="Exam" required>
+                                <option selected disabled value="">Select an Exam</option>
+                            </select>
+
+                            <!-- Student Dropdown -->
+                            <label for="studentSelect" class="mt-2">Select Student</label>
+                            <select id="studentSelect" class="form-select mb-3" name="student" required>
+                                <option selected disabled value="">Select a Student</option>
+                            </select>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group mt-2">
+                                        <label class="form-label" for="exampleInputText">Mark</label>
+                                        <input class="form-control" id="exampleInputText" name="Mark" type="text"
+                                            placeholder="">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group mt-2">
+                                        <label class="form-label" for="exampleInputText">Out of</label>
+                                        <input class="form-control" id="exampleInputText" name="Outof" type="text"
+                                            placeholder="">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+
+
+
+                            <!-- Show Details Button -->
+
+
+
+                            {{!-- <div class="form-group w-100 mb-3">
+                                <label for="" class="mt-2">Select Exam</label>
+                                <select class="form-select" name="Class" aria-label="Default select example" required>
+                                    <option selected disabled>Class</option>
+                                    {{#each exams}}
+                                    <option value="{{this._id}}">{{this.name}} - Class {{this.Class}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group w-100">
+                                        <label class="form-label" for="exampleInputText">Chapter Number
+                                            (From)</label>
+
+                                        <select class="form-select form-control" name="from"
+                                            aria-label="Default select example">
+                                            <option selected disabled>Select Chapter Number</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                            <option value="4">Four</option>
+                                            <option value="5">Five</option>
+                                            <option value="6">Six</option>
+                                            <option value="7">Seven</option>
+                                            <option value="8">Eight</option>
+                                            <option value="9">Nine</option>
+                                            <option value="10">Ten</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group w-100">
+                                        <label class="form-label" for="exampleInputText">Chapter Number (To)</label>
+
+                                        <select class="form-select form-control" name="to"
+                                            aria-label="Default select example">
+                                            <option selected disabled>Select Chapter Number</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                            <option value="4">Four</option>
+                                            <option value="5">Five</option>
+                                            <option value="6">Six</option>
+                                            <option value="7">Seven</option>
+                                            <option value="8">Eight</option>
+                                            <option value="9">Nine</option>
+                                            <option value="10">Ten</option>
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mt-2">
+                                <label class="form-label" for="exampleInputText">Exam Date</label>
+                                <input class="form-control" id="exampleInputText" name="deadline" type="date"
+                                    placeholder="">
+                            </div> --}}
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <button type="submit" class="btn btn-dark mt-4">Submit</button>
+        </form>
+
+    </div>
+    </div>
+
+    <script>
+        // Get current date and time
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = (now.getMonth() + 1).toString().padStart(2, '0');
+        const day = now.getDate().toString().padStart(2, '0');
+        const hours = ((now.getHours() + 11) % 12 + 1).toString().padStart(2, '0'); // Convert to 12-hour format
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+
+        // Set default value to current date and time in 12-hour format with AM/PM
+        const defaultDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+        document.getElementById('datetime').value = defaultDateTime;
+    </script>
+
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .catch(error => {
+                console.error(error);
+            });
+    </script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("showDetailsBtn").addEventListener("click", function () {
+                let selectedClass = document.getElementById("classSelect").value;
+
+                if (!selectedClass) {
+                    alert("Please select a class.");
+                    return;
+                }
+
+                fetch(`/teacher/fetch-exams-students?class=${selectedClass}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let examSelect = document.getElementById("examSelect");
+                        let studentSelect = document.getElementById("studentSelect");
+
+                        // Clear previous options
+                        examSelect.innerHTML = '<option selected disabled value="">Select an Exam</option>';
+                        studentSelect.innerHTML = '<option selected disabled value="">Select a Student</option>';
+
+                        // Populate Exam Dropdown
+                        if (data.exams.length > 0) {
+                            data.exams.forEach(exam => {
+                                let option = document.createElement("option");
+                                option.value = exam._id; // ✅ Set exam ID as value
+                                option.textContent = exam.name; // ✅ Show exam name
+                                examSelect.appendChild(option);
+                            });
+                        } else {
+                            let option = document.createElement("option");
+                            option.textContent = "No exams found";
+                            examSelect.appendChild(option);
+                        }
+
+                        // Populate Student Dropdown
+                        if (data.students.length > 0) {
+                            data.students.forEach(student => {
+                                let option = document.createElement("option");
+                                option.value = student._id; // ✅ Set student ID as value
+                                option.textContent = student.Fname; // ✅ Show student name
+                                studentSelect.appendChild(option);
+                            });
+                        } else {
+                            let option = document.createElement("option");
+                            option.textContent = "No students found";
+                            studentSelect.appendChild(option);
+                        }
+                    })
+                    .catch(error => console.error("Error fetching data:", error));
+            });
+        });
+    </script>
+
+
+    <!-- Add these IDs where you want to display the fetched data -->

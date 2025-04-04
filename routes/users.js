@@ -618,8 +618,7 @@ router.get("/attendance", verifySignedIn, async function (req, res) {
     if (!user || !user._id) {
       return res.status(403).send("Unauthorized");
     }
-    const attendanceData = await userHelper.getAllattendancebyid(user._id);  // ✅ Pass user ID
-
+    const attendanceData = await userHelper.getAllattendancebyid(user._id);
     console.log("Attendance Data:", JSON.stringify(attendanceData, null, 2)); // Debugging
 
     res.render("users/attendance", {
@@ -641,6 +640,50 @@ router.get("/all-materials", verifySignedIn, function (req, res) {
     res.render("users/all-materials", { admin: false, materials, user });
   });
 });
+
+
+router.get("/exams", verifySignedIn, async function (req, res) {
+  let user = req.session.user;
+
+  if (!user || !user.Class) {
+    return res.status(400).send("User class not found");
+  }
+
+  let publicexams = await adminHelper.getAllPublicExamsClass(user.Class);
+
+  userHelper.getAllExams(user.Class)
+    .then((exams) => {
+      res.render("users/exams", { admin: false, exams, publicexams, user });
+    })
+    .catch((err) => {
+      console.error("Error fetching exams:", err);
+      res.status(500).send("Internal Server Error");
+    });
+});
+
+
+
+
+router.get("/results", verifySignedIn, async function (req, res) {
+  let user = req.session.user;
+
+  if (!user || !user.Class || !user._id) {
+    return res.status(400).send("User class or ID not found");
+  }
+
+  userHelper.getAllResults(user.Class, user._id)
+    .then((results) => {
+      res.render("users/results", { admin: false, results, user });
+      console.log("----------:", results);
+    })
+    .catch((err) => {
+      console.error("Error fetching results:", err);
+      res.status(500).send("Internal Server Error");
+    });
+});
+
+
+
 
 router.get("/announcements", verifySignedIn, async function (req, res) {
   let user = req.session.user;
@@ -777,6 +820,8 @@ router.get("/timetable", verifySignedIn, async function (req, res) {
     return res.redirect("/login"); // Redirect if class info is missing
   }
 
+  let publicexams = await adminHelper.getAllPublicExamsClass(user.Class);
+
   let timetable;
   let userClass = parseInt(user.Class); // Ensure it's an integer
 
@@ -809,7 +854,7 @@ router.get("/timetable", verifySignedIn, async function (req, res) {
 
   console.log("Timetable Data:", timetable); // ✅ Debugging fetched timetable
   // Pass only the relevant timetable
-  res.render("users/timetable", { admin: false, user, timetable });
+  res.render("users/timetable", { admin: false, user, timetable, publicexams });
 });
 
 

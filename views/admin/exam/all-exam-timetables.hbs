@@ -1,0 +1,146 @@
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Manage Exam</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
+                <li class="breadcrumb-item">Exam</li>
+                <li class="breadcrumb-item active">All-Exam</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+
+
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">All Public Exams</h5>
+                        <a href="/admin/exam/add" class="btn btn-primary mb-4">
+                            + Add Exam
+                        </a>
+                        <div class="table-responsive">
+                            <table class="table datatable border table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Exam Name</th>
+                                        <th>Class</th>
+                                        <th>Subjects</th>
+
+                                        <th>Manage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each publicexams}}
+                                    <tr>
+                                        <td>{{incremented @index}}</td>
+                                        <td>{{this.examname}}</td>
+                                        <td>{{this.Class}}</td>
+                                        <td>
+
+                                            <table class="table border table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Date</th>
+                                                        <th>Subject</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>{{this.d1}} </td>
+                                                        <td>{{this.s1}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{this.d2}} </td>
+                                                        <td>{{this.s2}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{this.d3}} </td>
+                                                        <td>{{this.s3}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{this.d4}} </td>
+                                                        <td>{{this.s4}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{this.d5}} </td>
+                                                        <td>{{this.s5}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{this.d6}} </td>
+                                                        <td>{{this.s6}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{this.d7}} </td>
+                                                        <td>{{this.s7}} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>{{this.d8}} </td>
+                                                        <td>{{this.s8}} </td>
+                                                    </tr>
+                                                    <tr>
+
+                                                </tbody>
+                                            </table>
+
+
+
+                                        </td>
+                                        <td>
+                                            <a href="/admin/delete-publicexam/{{this._id}}"
+                                                class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Are You Sure to Delete  ?')">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </td>
+
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+
+
+
+
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Select Class</h5>
+            </div>
+            <div class="modal-body">
+                <a href="/admin/exam/class-1" class="btn btn-dark mb-2">Class 1</a>
+                <a href="/admin/exam/class-2" class="btn btn-dark mb-2">Class 2</a>
+                <a href="/admin/exam/class-3" class="btn btn-dark mb-2">Class 3</a>
+                <a href="/admin/exam/class-4" class="btn btn-dark mb-2">Class 4</a>
+                <a href="/admin/exam/class-5" class="btn btn-dark mb-2">Class 5</a>
+                <a href="/admin/exam/class-6" class="btn btn-dark mb-2">Class 6</a>
+                <a href="/admin/exam/class-7" class="btn btn-dark mb-2">Class 7</a>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>

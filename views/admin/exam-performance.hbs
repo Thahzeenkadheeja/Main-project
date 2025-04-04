@@ -1,0 +1,98 @@
+{{!-- <main id="main" class="main">
+
+  <div class="container">
+    <h2>Student Performance</h2>
+
+    <canvas id="performanceChart"></canvas>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const results = JSON.parse('{{{results}}}');
+        const attendanceData = JSON.parse('{{{attendanceData}}}');
+
+        // Exam Performance Chart
+        const examLabels = results.map(r => r.studentName + " - " + r.examName);
+        const marks = results.map(r => r.marks);
+        const outOf = results.map(r => r.outOf);
+
+        const examCtx = document.getElementById("performanceChart").getContext("2d");
+        new Chart(examCtx, {
+          type: "bar",
+          data: {
+            labels: examLabels,
+            datasets: [
+              {
+                label: "Marks",
+                data: marks,
+                backgroundColor: "rgba(75, 192, 192, 0.6)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1
+              },
+              {
+                label: "Total Marks",
+                data: outOf,
+                backgroundColor: "rgba(255, 99, 132, 0.6)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                borderWidth: 1
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 100
+              }
+            }
+          }
+        });
+
+        // Attendance Performance Line Chart (Using Date)
+        const attendanceDates = attendanceData.map(a => a.date);
+        const presentCounts = attendanceData.map(a => a.presentCount);
+        const absentCounts = attendanceData.map(a => a.absentCount);
+
+        const attendanceCtx = document.getElementById("attendanceChart").getContext("2d");
+        new Chart(attendanceCtx, {
+          type: "line",
+          data: {
+            labels: attendanceDates, // Using date instead of student names
+            datasets: [
+              {
+                label: "Present Count",
+                data: presentCounts,
+                borderColor: "rgba(75, 192, 192, 1)",
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderWidth: 2,
+                fill: true
+              },
+              {
+                label: "Absent Count",
+                data: absentCounts,
+                borderColor: "rgba(255, 99, 132, 1)",
+                backgroundColor: "rgba(255, 99, 132, 0.2)",
+                borderWidth: 2,
+                fill: true
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+
+      });
+    </script>
+  </div>
+
+
+</main><!--End #main -- > --}}

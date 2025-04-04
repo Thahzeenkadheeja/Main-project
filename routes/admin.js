@@ -26,6 +26,27 @@ router.get("/", verifySignedIn, function (req, res, next) {
 
 
 
+router.get("/all-exam-timetables", verifySignedIn, async function (req, res) {
+  let administator = req.session.admin;
+  let publicexams = await adminHelper.getAllpublicexams();
+  res.render("admin/exam/all-exam-timetables", { admin: true, layout: "admin-layout", administator, publicexams });
+});
+
+
+router.get("/add", verifySignedIn, async function (req, res) {
+  let administator = req.session.admin;
+  res.render("admin/exam/add", { admin: true, layout: "admin-layout", administator });
+});
+
+
+///////ADD teacher/////////////////////                                         
+router.post("/add", function (req, res) {
+  adminHelper.addPublicexams(req.body, (id) => {
+    res.redirect("/admin/exam/all-exam-timetables");
+  });
+});
+
+
 router.get("/all-exams", verifySignedIn, async function (req, res) {
   let administator = req.session.admin;
   let exams = await adminHelper.getAllexams();
@@ -380,6 +401,25 @@ router.post("/block-user/:id", (req, res) => {
 });
 
 
+router.post("/unblock-user/:id", (req, res) => {
+  const userId = req.params.id;
+  const { reason } = req.body;
+
+  // Update the user in the database to set isDisable to false
+  db.get()
+    .collection(collections.USERS_COLLECTION)
+    .updateOne(
+      { _id: new ObjectId(userId) },
+      { $set: { isDisable: false } }
+    )
+    .then(() => res.redirect("/admin/users/all-users")) // Redirect on success
+    .catch(err => {
+      console.error('Error unblocking user:', err);
+      res.json({ success: false });
+    });
+});
+
+
 
 router.get("/remove-all-users", verifySignedIn, function (req, res) {
   adminHelper.removeAllUsers().then(() => {
@@ -610,6 +650,269 @@ router.post("/delete-timetable/:id", verifySignedIn, async function (req, res) {
   res.redirect("/admin/timetable/classes");
 });
 
+
+
+
+router.get("/student-performance", verifySignedIn, async function (req, res) {
+  let administrator = req.session.admin;
+
+  if (!administrator) {
+    return res.redirect("/admin/signin");
+  }
+
+  try {
+    let results = await db.get()
+      .collection(collections.RESULT_COLLECTION)
+      .aggregate([
+        {
+          $lookup: {
+            from: collections.USERS_COLLECTION,
+            localField: "student",
+            foreignField: "_id",
+            as: "studentDetails"
+          }
+        },
+        { $unwind: "$studentDetails" },
+        {
+          $lookup: {
+            from: collections.EXAM_COLLECTION,
+            localField: "Exam",
+            foreignField: "_id",
+            as: "examDetails"
+          }
+        },
+        { $unwind: "$examDetails" },
+        {
+          $project: {
+            _id: 0,
+            studentName: "$studentDetails.Fname",
+            examName: "$examDetails.name",
+            marks: { $toInt: "$Mark" },
+            outOf: { $toInt: "$Outof" }
+          }
+        }
+      ])
+      .toArray();
+
+    // Fetch attendance performance (Using Date)
+    let attendanceData = await db.get()
+      .collection(collections.ATTENDANCE_COLLECTION)
+      .aggregate([
+        {
+          $addFields: {
+            dateConverted: { $toDate: "$date" } // Convert string to Date
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            date: { $dateToString: { format: "%Y-%m-%d", date: "$dateConverted" } }, // Format to "YYYY-MM-DD"
+            presentCount: { $size: "$present" },
+            absentCount: { $size: "$absent" }
+          }
+        },
+        { $sort: { dateConverted: 1 } } // Sort by actual date (ascending)
+      ])
+      .toArray();
+
+    res.render("admin/student-performance", {
+      results: JSON.stringify(results),
+      attendanceData: JSON.stringify(attendanceData),
+      admin: true,
+      layout: "admin-layout",
+      administrator
+    });
+  } catch (error) {
+    console.error("Error fetching student performance:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+
+
+
+
+
+router.get("/exam-performance", verifySignedIn, async function (req, res) {
+  let administrator = req.session.admin;
+
+  if (!administrator) {
+    return res.redirect("/admin/signin");
+  }
+
+  try {
+    let results = await db.get()
+      .collection(collections.RESULT_COLLECTION)
+      .aggregate([
+        {
+          $lookup: {
+            from: collections.USERS_COLLECTION,
+            localField: "student",
+            foreignField: "_id",
+            as: "studentDetails"
+          }
+        },
+        { $unwind: "$studentDetails" },
+        {
+          $lookup: {
+            from: collections.EXAM_COLLECTION,
+            localField: "Exam",
+            foreignField: "_id",
+            as: "examDetails"
+          }
+        },
+        { $unwind: "$examDetails" },
+        {
+          $project: {
+            _id: 0,
+            studentName: "$studentDetails.Fname",
+            examName: "$examDetails.name",
+            marks: { $toInt: "$Mark" },
+            outOf: { $toInt: "$Outof" }
+          }
+        }
+      ])
+      .toArray();
+
+    // Fetch attendance performance (Using Date)
+    let attendanceData = await db.get()
+      .collection(collections.ATTENDANCE_COLLECTION)
+      .aggregate([
+        {
+          $addFields: {
+            dateConverted: { $toDate: "$date" } // Convert string to Date
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            date: { $dateToString: { format: "%Y-%m-%d", date: "$dateConverted" } }, // Format to "YYYY-MM-DD"
+            presentCount: { $size: "$present" },
+            absentCount: { $size: "$absent" }
+          }
+        },
+        { $sort: { dateConverted: 1 } } // Sort by actual date (ascending)
+      ])
+      .toArray();
+
+    res.render("admin/exam-performance", {
+      results: JSON.stringify(results),
+      attendanceData: JSON.stringify(attendanceData),
+      admin: true,
+      layout: "admin-layout",
+      administrator
+    });
+  } catch (error) {
+    console.error("Error fetching student performance:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+
+router.get("/attendance-performance", verifySignedIn, async function (req, res) {
+  let administrator = req.session.admin;
+
+  if (!administrator) {
+    return res.redirect("/admin/signin");
+  }
+
+  try {
+    // Get filter params
+    let fromDate = req.query.fromDate;
+    let toDate = req.query.toDate;
+    let studentName = req.query.studentName;
+
+    let matchStage = {};
+    if (fromDate && toDate) {
+      matchStage.dateConverted = {
+        $gte: new Date(fromDate),
+        $lte: new Date(toDate)
+      };
+    }
+
+    let attendanceData = await db.get()
+      .collection(collections.ATTENDANCE_COLLECTION)
+      .aggregate([
+        {
+          $addFields: {
+            dateConverted: { $toDate: "$date" } // Convert string to Date
+          }
+        },
+        { $match: matchStage }, // Apply date filter
+        {
+          $lookup: {
+            from: collections.USERS_COLLECTION,
+            localField: "present",
+            foreignField: "_id",
+            as: "presentStudents"
+          }
+        },
+        {
+          $lookup: {
+            from: collections.USERS_COLLECTION,
+            localField: "absent",
+            foreignField: "_id",
+            as: "absentStudents"
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            date: { $dateToString: { format: "%Y-%m-%d", date: "$dateConverted" } },
+            students: {
+              $concatArrays: [
+                { $map: { input: "$presentStudents", as: "s", in: { name: "$$s.Fname", isPresent: true } } },
+                { $map: { input: "$absentStudents", as: "s", in: { name: "$$s.Fname", isPresent: false } } }
+              ]
+            }
+          }
+        },
+        { $sort: { dateConverted: 1 } }
+      ])
+      .toArray();
+
+    // Apply student name filter (if selected)
+    if (studentName) {
+      attendanceData = attendanceData.map(entry => ({
+        ...entry,
+        students: entry.students.filter(student => student.name === studentName)
+      })).filter(entry => entry.students.length > 0);
+    }
+
+    // Fetch unique student names for dropdown
+    let studentList = await db.get()
+      .collection(collections.USERS_COLLECTION)
+      .find({}, { projection: { _id: 0, name: "$Fname" } })
+      .toArray();
+
+    res.render("admin/attendance-performance", {
+      attendanceData,
+      studentList,
+      admin: true,
+      layout: "admin-layout",
+      administrator
+    });
+  } catch (error) {
+    console.error("Error fetching attendance performance:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+
+
+
+router.get("/delete-publicexam/:id", verifySignedIn, function (req, res) {
+  let publicexamId = req.params.id;
+  adminHelper.deletepublicexam(publicexamId).then((response) => {
+    res.redirect("/admin/exam/all-exam-timetables");
+  });
+});
 
 
 

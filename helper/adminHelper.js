@@ -148,6 +148,16 @@ module.exports = {
               },
             },
             {
+              $lookup: {
+                from: collections.TEACHER_COLLECTION,
+                localField: "teacher7",
+                foreignField: "_id",
+                as: "teacherInfo7",
+              },
+            },
+
+
+            {
               $project: {
                 _id: 1,
                 sname: 1,
@@ -159,6 +169,8 @@ module.exports = {
                 teacher4: 1,
                 teacher5: 1,
                 teacher6: 1,
+                teacher7: 1,
+
               },
             },
           ])
@@ -686,6 +698,20 @@ module.exports = {
   },
 
 
+  addPublicexams: (publicexams, callback) => {
+    console.log(publicexams); // Debugging
+
+    db.get()
+      .collection(collections.PUBLICEXAMS_COLLECTION)
+      .insertOne(publicexams)
+      .then((data) => {
+        console.log("Publicexams added:", data);
+        callback(data.insertedId);
+      })
+      .catch((err) => console.error("Error inserting publicexams:", err));
+  },
+
+
   ///////ADD teacher/////////////////////                                         
   addnotification: (notification, callback) => {
     console.log(notification);
@@ -765,6 +791,8 @@ module.exports = {
                 as: "teacherDetails",
               },
             },
+
+
             {
               $unwind: { path: "$userDetails", preserveNullAndEmptyArrays: true },
             },
@@ -828,6 +856,21 @@ module.exports = {
       } catch (err) {
         reject(err);
       }
+    });
+  },
+
+
+  deletepublicexam: (publicexamId) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collections.PUBLICEXAMS_COLLECTION)
+        .removeOne({
+          _id: objectId(publicexamId)
+        })
+        .then((response) => {
+          console.log(response);
+          resolve(response);
+        });
     });
   },
 
@@ -1492,6 +1535,8 @@ module.exports = {
         .get()
         .collection(collections.ANOUNCEMENTS_COLLECTION)
         .find()
+        .sort({ createdAt: -1 })
+
         .toArray();
       resolve(anouncements);
     });
@@ -1526,6 +1571,34 @@ module.exports = {
       resolve(exams);
     });
   },
+
+  getAllpublicexams: () => {
+    return new Promise(async (resolve, reject) => {
+      let publicexams = await db
+        .get()
+        .collection(collections.PUBLICEXAMS_COLLECTION)
+        .find()
+        .toArray();
+      resolve(publicexams);
+    });
+  },
+
+  getAllPublicExamsClass: (userClass) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let publicExams = await db
+          .get()
+          .collection(collections.PUBLICEXAMS_COLLECTION)
+          .find({ Class: userClass }) // Filter by logged-in user's class
+          .toArray();
+
+        resolve(publicExams);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+
 
 };
 

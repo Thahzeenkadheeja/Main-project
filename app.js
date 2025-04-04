@@ -89,6 +89,7 @@ app.use("/admin/parents", adminRouter);
 app.use("/admin/subjects", adminRouter);
 app.use("/admin/attendance", adminRouter);
 app.use("/admin/timetable", adminRouter);
+app.use("/admin/exam", adminRouter);
 
 
 // catch 404 and forward to error handler

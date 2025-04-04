@@ -35,7 +35,8 @@
                                         <th>Address</th>
                                         <th>City</th>
                                         <th>Manage</th>
-                            
+                                        <th>Other</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -49,11 +50,19 @@
                                         <td>{{this.Phone}}</td>
                                         <td>{{this.Address}}</td>
                                         <td>{{this.District}}</td>
-                            
-                            
+
+
                                         {{#if this.isDisable}}
                                         <td>
-                                            <button class="btn btn-secondary btn-sm" disabled>Blocked</button>
+                                            <form action="/admin/unblock-user/{{this._id}}" method="POST">
+                                                <button
+                                                    onclick="return confirm('Are You Sure to unblock {{this.Fname}} ?')"
+                                                    type="submit" class="btn btn-primary btn-sm">Unblock</button>
+                                            </form>
+
+                                        </td>
+                                        <td>
+                                            <p style="font-size: 16 px;"> {{this.blockReason}}</p>
 
                                         </td>
                                         {{else}}
@@ -63,7 +72,6 @@
                                                 onclick="setUserIdToBlock('{{this._id}}')">Block</a>
 
                                         </td>
-    
                                         {{/if}}
                                     </tr>
                                     {{/each}}
@@ -80,6 +88,8 @@
     </section>
 
 </main><!-- End #main -->
+
+
 
 <div class="modal fade" id="blockModal" tabindex="-1" aria-labelledby="blockModalLabel" aria-hidden="true">
     <div class="modal-dialog">

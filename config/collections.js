@@ -20,5 +20,7 @@ module.exports = {
     TIMETABLE_COLLECTION: 'timetable',
     ANOUNCEMENTS_COLLECTION: "anouncements",
     EXAM_COLLECTION: "exam",
+    RESULT_COLLECTION: "results",
+    PUBLICEXAMS_COLLECTION: "public-exam"
 
 }

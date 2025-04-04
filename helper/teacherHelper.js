@@ -8,7 +8,6 @@ module.exports = {
 
 
   addattendance: (attendance, callback) => {
-
     const present = Array.isArray(attendance.present)
       ? attendance.present
       : attendance.present ? [attendance.present] : [];
@@ -17,34 +16,47 @@ module.exports = {
       ? attendance.absent
       : attendance.absent ? [attendance.absent] : [];
 
-
-
     const attendanceData = {
       date: attendance.date,
       selectedDate: attendance.selectedDate,
       period: attendance.period,
       Class: attendance.Class,
-      teacherId: new ObjectId(attendance.teacherId),  // Convert to ObjectId
-      subjectId: new ObjectId(attendance.subjectId),  // Convert to ObjectId
-      subject: attendance.subject,  // Subject name remains as string
+      teacherId: new ObjectId(attendance.teacherId),
+      subjectId: new ObjectId(attendance.subjectId),
+      subject: attendance.subject,
       present: present.map(id => new ObjectId(id)),
       absent: absent.map(id => new ObjectId(id)),
-
     };
 
-    db.get()
-      .collection(collections.ATTENDANCE_COLLECTION)
-      .insertOne(attendanceData)
-      .then((data) => {
-        console.log("Attendance added:", data);
-        callback(data.insertedId); // Return inserted ID
-      })
-      .catch((err) => {
-        console.error("Error adding attendance:", err);
-        callback(null); // Handle errors appropriately
-      });
-  },
+    const dbCollection = db.get().collection(collections.ATTENDANCE_COLLECTION);
 
+    // Check if attendance for this date, class, and period already exists
+    dbCollection.findOne({
+      selectedDate: attendance.selectedDate,
+      period: attendance.period,
+      Class: attendance.Class,
+      subjectId: new ObjectId(attendance.subjectId),
+    }).then((existingAttendance) => {
+      if (existingAttendance) {
+        console.log("Attendance already submitted for this date and period.");
+        return callback(null, "Attendance for this date and period has already been submitted.");
+      }
+
+      // If no existing record, insert the new attendance data
+      dbCollection.insertOne(attendanceData)
+        .then((data) => {
+          console.log("Attendance added:", data);
+          callback(data.insertedId, null); // Return inserted ID
+        })
+        .catch((err) => {
+          console.error("Error adding attendance:", err);
+          callback(null, "Error adding attendance.");
+        });
+    }).catch((err) => {
+      console.error("Error checking existing attendance:", err);
+      callback(null, "Error checking attendance.");
+    });
+  },
 
   ///////ADD material/////////////////////                                         
   addmaterial: (material, teacherId, callback) => {
@@ -76,6 +88,23 @@ module.exports = {
         .find() // Filter by teacherId
         .toArray();
       resolve(materials);
+    });
+  },
+
+
+  getAllmaterialsByid: (teacherId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let materials = await db
+          .get()
+          .collection(collections.MATERIAL_COLLECTION)
+          .find({ teacherId: objectId(teacherId) }) // Filter by teacherId
+          .toArray();
+        resolve(materials);
+      } catch (error) {
+        console.error("Error fetching materials:", error);
+        reject(error);
+      }
     });
   },
 
@@ -269,6 +298,29 @@ module.exports = {
 
 
 
+
+  addresult: (result, teacherId, callback) => {
+    if (!teacherId || !objectId.isValid(teacherId)) {
+      return callback(null, new Error("Invalid or missing teacherId"));
+    }
+
+    result.createdAt = new Date(); // Set createdAt as the current date and time
+    result.teacherId = objectId(teacherId); // Associate result with the teacher
+
+    db.get()
+      .collection(collections.RESULT_COLLECTION)
+      .insertOne(result)
+      .then((data) => {
+        callback(data.ops[0]._id); // Return the inserted exam ID
+      })
+      .catch((error) => {
+        callback(null, error);
+      });
+  },
+
+
+
+
   getAllexams: () => {
     return new Promise(async (resolve, reject) => {
       let exams = await db
@@ -309,6 +361,22 @@ module.exports = {
     });
   },
 
+
+
+  ///////DELETE result/////////////////////                                            
+  deleteresult: (resultId) => {
+    return new Promise((resolve, reject) => {
+      db.get()
+        .collection(collections.RESULT_COLLECTION)
+        .removeOne({
+          _id: objectId(resultId)
+        })
+        .then((response) => {
+          console.log(response);
+          resolve(response);
+        });
+    });
+  },
   ///////ADD notification/////////////////////                                         
   addnotification: (notification, callback) => {
     // Convert teacherId and userId to ObjectId if they are provided in the notification
@@ -410,6 +478,75 @@ module.exports = {
   },
 
 
+
+
+  getresultById: (teacherId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const results = await db.get()
+          .collection(collections.RESULT_COLLECTION)
+          .aggregate([
+            {
+              $match: { teacherId: new ObjectId(teacherId) } // ✅ Filter by teacherId
+            },
+            {
+              $lookup: {
+                from: collections.EXAM_COLLECTION, // ✅ Join with EXAM_COLLECTION
+                localField: "Exam", // ✅ Match examId field in RESULT_COLLECTION
+                foreignField: "_id", // ✅ Match with _id in EXAM_COLLECTION
+                as: "examDetails" // ✅ Store result as examDetails
+              }
+            },
+            {
+              $unwind: {
+                path: "$examDetails",
+                preserveNullAndEmptyArrays: true // ✅ Allow missing exams
+              }
+            },
+            {
+              $lookup: {
+                from: collections.USERS_COLLECTION, // ✅ Join with USERS_COLLECTION
+                localField: "student", // ✅ Match studentId field in RESULT_COLLECTION
+                foreignField: "_id", // ✅ Match with _id in USERS_COLLECTION
+                as: "studentDetails" // ✅ Store result as studentDetails
+              }
+            },
+            {
+              $unwind: {
+                path: "$studentDetails",
+                preserveNullAndEmptyArrays: true // ✅ Allow missing students
+              }
+            },
+            {
+              $project: {
+                _id: 1,
+                teacherName: 1,
+                subject: 1,
+                Class: 1,
+                createdAt: 1,
+                Mark: 1,
+                Outof: 1,
+                "examDetails.name": 1,   // ✅ Fetch exam name
+                "examDetails.no": 1,     // ✅ Fetch exam number
+                "examDetails.subject": 1,    // ✅ Fetch exam subject
+                "examDetails.from": 1,       // ✅ Fetch exam start date
+                "examDetails.to": 1,         // ✅ Fetch exam end date
+                "studentDetails.Fname": 1,   // ✅ Fetch student first name
+                "studentDetails.Class": 1,   // ✅ Fetch student class
+                "studentDetails.Phone": 1    // ✅ Fetch student phone number
+              }
+            }
+          ])
+          .toArray();
+
+        resolve(results);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+
+
   ///////ADD notification DETAILS/////////////////////                                            
   getnotificationDetails: (notificationId) => {
     return new Promise((resolve, reject) => {
@@ -492,24 +629,19 @@ module.exports = {
     });
   },
 
-  ///////ADD homework/////////////////////                                         
-  addhomework: (homework, teacherId, callback) => {
-    if (!teacherId || !objectId.isValid(teacherId)) {
-      return callback(null, new Error("Invalid or missing teacherId"));
-    }
+  ///////ADD homework/////////////////////      
 
-    homework.teacherId = objectId(teacherId);
-
+  addhomework: (homework, callback) => {
+    homework.teacherId = new objectId(homework.teacherId);
     db.get()
       .collection(collections.HOMEWORK_COLLECTION)
       .insertOne(homework)
       .then((data) => {
-        callback(data.ops[0]._id); // Return the inserted workspace ID
-      })
-      .catch((error) => {
-        callback(null, error);
+        console.log(data);
+        callback(data.ops[0]._id);
       });
   },
+
 
 
   ///////GET ALL homework/////////////////////                                            
@@ -521,6 +653,31 @@ module.exports = {
         .find({ teacherId: objectId(teacherId) }) // Filter by teacherId
         .toArray();
       resolve(homeworks);
+    });
+  },
+
+
+
+  getAllhomeworksbyid: (teacherId) => {
+    return new Promise(async (resolve, reject) => {
+      let ahomeworks = await db
+        .get()
+        .collection(collections.FEEDBACK_COLLECTION)
+        .find({ teacherId: objectId(teacherId) }) // Filter by teacherId
+        .toArray();
+      resolve(ahomeworks);
+    });
+  },
+
+
+  getAllhomeworksbyid: (teacherId) => {
+    return new Promise(async (resolve, reject) => {
+      let ahomeworks = await db
+        .get()
+        .collection(collections.FEEDBACK_COLLECTION)
+        .find({ teacherId: objectId(teacherId) }) // Filter by teacherId
+        .toArray();
+      resolve(ahomeworks);
     });
   },
 

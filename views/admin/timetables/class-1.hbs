@@ -130,6 +130,16 @@
                                 </select>
                             </div>
 
+                            <div class="col-md-12 mt-3">
+                                <label for="inputName5" class="form-label"><b>7th Period</b></label>
+                                <select class="form-control form-control" name="teacher7">
+                                    <option selected disabled> Select Teacher</option>
+                                    {{#each teachers}}
+                                    <option value="{{this._id}}"> {{this.Companyname}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+
                     </div>
                     <div class="modal-footer">
                         <a href="/admin/timetable/all-timetables" class="btn me-3 btn-secondary"

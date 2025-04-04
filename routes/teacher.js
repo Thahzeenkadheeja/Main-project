@@ -64,40 +64,74 @@ router.get("/", verifySignedIn, async function (req, res, next) {
 
 ///////ADD notification/////////////////////                                         
 router.post("/submit-attendance", function (req, res) {
-  console.log(req.body); // Log the entire request body for debugging
+  console.log(req.body); // Debugging log
+
+  const present = [];
+  const absent = [];
+
+  // Categorizing present and absent students
+  Object.keys(req.body).forEach((key) => {
+    if (key.startsWith("attendance_")) {
+      const studentId = key.replace("attendance_", "");
+      if (req.body[key] === "present") {
+        present.push(studentId);
+      } else if (req.body[key] === "absent") {
+        absent.push(studentId);
+      }
+    }
+  });
 
   const attendance = {
     date: req.body.date,
     selectedDate: req.body.selectedDate,
     period: req.body.period,
     Class: req.body.Class,
-
     teacherId: req.body.teacherId,
     subjectId: req.body.subjectId,
     subject: req.body.subject,
-
-    present: req.body.present || [],
-    absent: req.body.absent || [],
-
+    present,
+    absent,
   };
 
-  teacherHelper.addattendance(attendance, (id) => {
-    if (id) {
-      res.redirect("/teacher");
-    } else {
-      res.status(500).send("Error adding attendance");
+  console.log("Processed Attendance Data:", attendance);
+
+  teacherHelper.addattendance(attendance, (id, error) => {
+    if (error) {
+      return res.send(`<script>alert("${error}"); window.location="/teacher/classes";</script>`);
     }
+    res.redirect("/teacher");
   });
 });
+
+
 
 
 ///////ALL material/////////////////////                                         
 router.get("/all-materials", verifySignedIn, function (req, res) {
   let teacher = req.session.teacher;
-  teacherHelper.getAllmaterials(req.session.teacher._id).then((materials) => {
+  teacherHelper.getAllmaterialsByid(req.session.teacher._id).then((materials) => {
     res.render("teacher/all-materials", { teacher: true, materials, teacher });
   });
 });
+
+
+router.get("/hw", verifySignedIn, async function (req, res) {
+  let teacher = req.session.teacher;
+  let ahomeworks = await teacherHelper.getAllhomeworksbyid(req.session.teacher._id)
+  console.log("-------", req.session.teacher._id);
+
+  res.render("teacher/hw", { teacher: true, ahomeworks, teacher });
+});
+
+
+router.get("/as", verifySignedIn, async function (req, res) {
+  let teacher = req.session.teacher;
+  let aassignments = await teacherHelper.getAllhomeworksbyid(req.session.teacher._id)
+  console.log("-------", req.session.teacher._id);
+
+  res.render("teacher/as", { teacher: true, aassignments, teacher });
+});
+
 
 ///////ADD workspace/////////////////////                                         
 router.get("/add-material", verifySignedIn, function (req, res) {
@@ -802,6 +836,7 @@ router.get("/add-hw", verifySignedIn, async function (req, res) {
     ])
     .toArray();
 
+
   if (teacherDetails.length > 0) {
     teacher = teacherDetails[0]; // ✅ Set the full teacher details
   }
@@ -815,7 +850,7 @@ router.post("/add-hw", function (req, res) {
     const teacherId = req.session.teacher._id; // Get the teacher's ID from the session
 
     // Pass the teacherId to the addhomework function
-    teacherHelper.addhomework(req.body, teacherId, (homeworkId, error) => {
+    teacherHelper.addhomework(req.body, (homeworkId, error) => {
       if (error) {
         console.log("Error adding homework:", error);
         res.status(500).send("Failed to add homework");
@@ -1214,9 +1249,47 @@ router.get("/all-exam", verifySignedIn, function (req, res) {
 });
 
 
-router.get("/add-exam", verifySignedIn, function (req, res) {
-  let teacher = req.session.teacher;
-  res.render("teacher/add-exam", { teacher: true, teacher });
+router.get("/add-exam", verifySignedIn, async function (req, res) {
+  let teacher = req.session.teacher; // ✅ Get the logged-in teacher's session data
+
+  if (!teacher) {
+    return res.redirect("/teacher/signin"); // ✅ Redirect if no teacher session exists
+  }
+
+  try {
+    // ✅ Fetch teacher details along with the subject details using `$lookup`
+    let teacherDetails = await db.get()
+      .collection(collections.TEACHER_COLLECTION)
+      .aggregate([
+        {
+          $match: { _id: new ObjectId(teacher._id) } // ✅ Match the logged-in teacher
+        },
+        {
+          $lookup: {
+            from: collections.SUBJECT_COLLECTION, // ✅ Join with SUBJECT_COLLECTION
+            localField: "subject", // ✅ Match teacher's `subject` field
+            foreignField: "_id", // ✅ Match `_id` from SUBJECT_COLLECTION
+            as: "subjectDetails" // ✅ Store result as `subjectDetails`
+          }
+        },
+        {
+          $unwind: {
+            path: "$subjectDetails", // ✅ Extract subject details (if exists)
+            preserveNullAndEmptyArrays: true // ✅ Allow teachers with no subjects
+          }
+        }
+      ])
+      .toArray();
+
+    if (teacherDetails.length > 0) {
+      teacher = teacherDetails[0]; // ✅ Set the full teacher details
+    }
+
+    res.render("teacher/add-exam", { teacher: true, layout: "layout", teacher });
+  } catch (error) {
+    console.error("Error fetching teacher details:", error);
+    res.redirect("/login");
+  }
 });
 
 
@@ -1245,6 +1318,162 @@ router.get("/delete-exam/:id", verifySignedIn, function (req, res) {
     res.redirect("/teacher/all-exam");
   });
 });
+
+
+
+
+
+
+
+
+router.get("/all-results", verifySignedIn, async function (req, res) {
+  let teacher = req.session.teacher;
+  try {
+    let results = await teacherHelper.getresultById(teacher._id);
+
+    console.log("Fetched Results:", JSON.stringify(results, null, 2)); // ✅ Debug Output
+
+    res.render("teacher/all-results", { teacher: true, results, teacher });
+  } catch (err) {
+    console.error("Error fetching results:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+
+
+router.get("/add-result", verifySignedIn, async function (req, res) {
+  let teacher = req.session.teacher; // ✅ Get the logged-in teacher's session data
+  let exams = await teacherHelper.getexamById(teacher._id);
+
+  if (!teacher) {
+    return res.redirect("/teacher/signin"); // ✅ Redirect if no teacher session exists
+  }
+
+  try {
+    // ✅ Fetch teacher details along with the subject details using `$lookup`
+    let teacherDetails = await db.get()
+      .collection(collections.TEACHER_COLLECTION)
+      .aggregate([
+        {
+          $match: { _id: new ObjectId(teacher._id) } // ✅ Match the logged-in teacher
+        },
+        {
+          $lookup: {
+            from: collections.SUBJECT_COLLECTION, // ✅ Join with SUBJECT_COLLECTION
+            localField: "subject", // ✅ Match teacher's `subject` field
+            foreignField: "_id", // ✅ Match `_id` from SUBJECT_COLLECTION
+            as: "subjectDetails" // ✅ Store result as `subjectDetails`
+          }
+        },
+        {
+          $unwind: {
+            path: "$subjectDetails", // ✅ Extract subject details (if exists)
+            preserveNullAndEmptyArrays: true // ✅ Allow teachers with no subjects
+          }
+        }
+      ])
+      .toArray();
+
+    if (teacherDetails.length > 0) {
+      teacher = teacherDetails[0]; // ✅ Set the full teacher details
+    }
+
+    res.render("teacher/add-result", { teacher: true, layout: "layout", teacher, exams });
+  } catch (error) {
+    console.error("Error fetching teacher details:", error);
+    res.redirect("/login");
+  }
+});
+
+
+
+router.post("/add-result", async function (req, res) {
+  if (!req.session.signedInTeacher || !req.session.teacher) {
+    return res.redirect("/teacher/signin");
+  }
+
+  try {
+    const teacherId = req.session.teacher._id;
+    const { Exam, student, Class, teacherName, subject, Mark, Outof } = req.body;
+
+    // Validate required fields
+
+
+    // Convert IDs to ObjectId
+    const resultData = {
+      teacherId: new ObjectId(teacherId),
+      Exam: new ObjectId(Exam),
+      student: new ObjectId(student),
+      Class: Class,
+      teacherName: teacherName,
+      subject: subject,
+      Mark: Mark,
+      Outof: Outof,
+
+      createdAt: new Date(),
+    };
+
+    // Insert into DB
+    let result = await db.get()
+      .collection(collections.RESULT_COLLECTION)
+      .insertOne(resultData);
+
+    if (result.insertedId) {
+      res.redirect("/teacher/all-results");
+    } else {
+      res.status(500).send("Failed to add result.");
+    }
+  } catch (error) {
+    console.error("Error adding result:", error);
+    res.status(500).send("Server error.");
+  }
+});
+
+router.get("/delete-result/:id", verifySignedIn, function (req, res) {
+  let resultId = req.params.id;
+  teacherHelper.deleteresult(resultId).then((response) => {
+    res.redirect("/teacher/all-results");
+  });
+});
+
+
+
+router.get("/fetch-exams-students", verifySignedIn, async (req, res) => {
+  let teacher = req.session.teacher;
+  if (!teacher) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  let Class = req.query.class;
+  if (!Class) {
+    return res.status(400).json({ error: "Class number is required" });
+  }
+
+  try {
+    // Fetch exams matching the selected class
+    let exams = await db.get()
+      .collection(collections.EXAM_COLLECTION)
+      .find({ Class })
+      .toArray();
+
+    console.log("exam-----", exams);
+
+
+    // Fetch students matching the selected class
+    let students = await db.get()
+      .collection(collections.USERS_COLLECTION)
+      .find({ Class })
+      .toArray();
+    console.log("users-----", students);
+
+    res.json({ exams, students });
+  } catch (error) {
+    console.error("Error fetching exams and students:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 
 
 

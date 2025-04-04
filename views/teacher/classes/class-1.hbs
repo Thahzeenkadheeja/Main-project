@@ -60,30 +60,33 @@
                         <p class="mb-0">Check the students if they are present</p>
                         <hr class="mb-0">
 
-                        <table class="mt-0 table table-bordered" style="">
+                        <table class="mt-0 table table-bordered">
                             <tbody>
-                                <th>Present</th>
-                                <th>Absent</th>
-                                <th>Student</th>
-                                {{#each users}}
-
-
                                 <tr>
-                                    <td>
-                                        <!-- Checkbox for each user -->
-                                        <input type="checkbox" name="present" value="{{this._id}}">
-                                    </td>
-                                    <td>
-                                        <!-- Checkbox for each user -->
-                                        <input type="checkbox" name="absent" value="{{this._id}}">
-                                    </td>
+                                    <th>Student</th>
+                                    <th style="width: 10%;">Present</th>
+                                </tr>
+                                {{#each users}}
+                                <tr>
                                     <td>{{this.Fname}} {{this.Lname}}</td>
-                                </tr> <br>
+                                    <td style="width: 10%;">
+                                        <!-- Radio button for "Present" -->
+                                        <input type="radio" name="attendance_{{this._id}}" value="present" required>
+                                    </td>
+                                    <td style="display: none;width: 10%;">
+                                        <!-- Radio button for "Absent" (hidden but still functional) -->
+                                        <input type="radio" name="attendance_{{this._id}}" value="absent" checked
+                                            style="display: none;">
+                                    </td>
+                                </tr>
                                 {{/each}}
                             </tbody>
                         </table>
 
+
                         <button class="btn btn-dark w-25 mt-5" type="submit">Mark Attendance</button>
+
+
                     </form>
                 </div>
                 <!-- Login Meta -->

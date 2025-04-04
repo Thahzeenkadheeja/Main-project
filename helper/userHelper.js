@@ -14,6 +14,86 @@ var instance = new Razorpay({
 module.exports = {
 
 
+  getAllExams: (userClass) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let exams = await db
+          .get()
+          .collection(collections.EXAM_COLLECTION)
+          .find({ Class: userClass }) // Filter exams by user class
+          .toArray();
+        resolve(exams);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+
+
+  getAllResults: (userClass, userId) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let results = await db
+          .get()
+          .collection(collections.RESULT_COLLECTION)
+          .aggregate([
+            {
+              $match: {
+                Class: userClass,  // ✅ Filter by Class
+                student: new ObjectId(userId) // ✅ Filter by logged-in student ID
+              }
+            },
+            {
+              $lookup: {
+                from: collections.EXAM_COLLECTION,
+                localField: "Exam",
+                foreignField: "_id",
+                as: "examDetails"
+              }
+            },
+            { $unwind: { path: "$examDetails", preserveNullAndEmptyArrays: true } },
+
+            {
+              $lookup: {
+                from: collections.EXAM_COLLECTION,
+                localField: "student",
+                foreignField: "_id",
+                as: "studentDetails"
+              }
+            },
+            { $unwind: { path: "$studentDetails", preserveNullAndEmptyArrays: true } },
+
+            {
+              $project: {
+                _id: 1,
+                Class: 1,
+                createdAt: 1,
+                Mark: 1,
+                Outof: 1,
+                teacherName: 1,
+                subject: 1,
+                "examDetails.name": { $ifNull: ["$examDetails.name", "N/A"] },
+                "examDetails.examNo": { $ifNull: ["$examDetails.examNo", "N/A"] },
+                "examDetails.subject": { $ifNull: ["$examDetails.subject", "N/A"] },
+                "examDetails.from": { $ifNull: ["$examDetails.from", "N/A"] },
+                "examDetails.to": { $ifNull: ["$examDetails.to", "N/A"] },
+                "studentDetails.Fname": { $ifNull: ["$studentDetails.Fname", "N/A"] },
+                "studentDetails.Class": { $ifNull: ["$studentDetails.Class", "N/A"] },
+                "studentDetails.Phone": { $ifNull: ["$studentDetails.Phone", "N/A"] }
+              }
+            }
+          ])
+          .toArray();
+
+        resolve(results);
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+
+
+
   getAllmaterials: () => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -208,7 +288,7 @@ module.exports = {
 
 
   ///////All Attendance by id/////////////////////                                         
-  getAllattendancebyid: (userId) => {  // Accept userId as a parameter
+  getAllattendancebyid: (userId) => {
     return new Promise(async (resolve, reject) => {
       try {
         let attendance = await db
@@ -216,9 +296,12 @@ module.exports = {
           .collection(collections.ATTENDANCE_COLLECTION)
           .aggregate([
             {
-              // Filter attendance for the logged-in user
+              // Check if the user is in the present or absent array
               $match: {
-                selectedUsers: new ObjectId(userId)  // ✅ Match userId in the selectedUsers array
+                $or: [
+                  { present: new ObjectId(userId) },
+                  { absent: new ObjectId(userId) }
+                ]
               }
             },
             {
@@ -227,51 +310,39 @@ module.exports = {
                 from: collections.TEACHER_COLLECTION,
                 localField: "teacherId",
                 foreignField: "_id",
-                as: "teacherDetails"
-              }
+                as: "teacherDetails",
+              },
             },
+            { $unwind: { path: "$teacherDetails", preserveNullAndEmptyArrays: true } },
             {
-              // Unwind teacherDetails to extract a single teacher object
-              $unwind: {
-                path: "$teacherDetails",
-                preserveNullAndEmptyArrays: true
-              }
-            },
-            {
-              // Lookup for subject details
+              // Lookup for subject details (to get subject name)
               $lookup: {
                 from: collections.SUBJECT_COLLECTION,
                 localField: "subjectId",
                 foreignField: "_id",
-                as: "subjectDetails"
-              }
+                as: "subjectDetails",
+              },
             },
+            { $unwind: { path: "$subjectDetails", preserveNullAndEmptyArrays: true } },
             {
-              // Unwind subjectDetails to extract a single subject object
-              $unwind: {
-                path: "$subjectDetails",
-                preserveNullAndEmptyArrays: true
-              }
-            },
-            {
-              // Lookup for selected user details
-              $lookup: {
-                from: collections.USERS_COLLECTION,
-                localField: "selectedUsers",
-                foreignField: "_id",
-                as: "selectedUserDetails"
-              }
+              // Add a field to check if the user is present
+              $addFields: {
+                isPresent: {
+                  $in: [new ObjectId(userId), "$present"], // Check if userId exists in the present array
+                },
+              },
             },
             {
               // Project necessary fields
               $project: {
                 date: 1,
-                subject: 1,
+                period: 1, // Include the selected period
+                Class: 1,  // Include the selected class
                 teacherName: { $ifNull: ["$teacherDetails.Name", ""] },
-                subjectName: { $ifNull: ["$subjectDetails.sname", ""] },
-                selectedUsers: "$selectedUserDetails.Fname",  // User's first name from selected users
-              }
-            }
+                subjectName: { $ifNull: ["$subjectDetails.sname", ""] }, // Get subject name
+                isPresent: 1, // Include the new field
+              },
+            },
           ])
           .toArray();
 

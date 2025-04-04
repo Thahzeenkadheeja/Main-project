@@ -5,7 +5,7 @@
         <form action="/teacher/add-task" enctype="multipart/form-data" method="POST">
             <input type="hidden" name="date" id="datetime">
             {{#if teacher}}
-            <input type="hidden" value={{teacher.Name}} name="teacher">
+            <input type="hidden" value={{teacher.Companyname}} name="teacher">
             <input type="hidden" value={{teacher._id}} name="teacherId">
 
             {{/if}}
@@ -52,11 +52,11 @@
                         <div class="card-body">
 
 
-                            <div class="form-group">
+                            {{!-- <div class="form-group">
                                 <label class="form-label" for="exampleInputText">Upload Image (if there is no image then
                                     leave this input)</label>
                                 <input class="form-control" id="exampleInputText" name="File1" type="file">
-                            </div>
+                            </div> --}}
 
 
                             <div class="form-group mt-3">

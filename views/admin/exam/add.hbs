@@ -1,0 +1,309 @@
+<style>
+    .custum-file-upload {
+        height: 200px;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: space-between;
+        gap: 20px;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        border: 2px dashed #cacaca;
+        background-color: rgba(255, 255, 255, 1);
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0px 48px 35px -48px rgba(0, 0, 0, 0.1);
+    }
+
+    .custum-file-upload .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custum-file-upload .icon svg {
+        height: 80px;
+        fill: rgba(75, 85, 99, 1);
+    }
+
+    .custum-file-upload .text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .custum-file-upload .text span {
+        font-weight: 400;
+        color: rgba(75, 85, 99, 1);
+    }
+
+    .custum-file-upload input {
+        display: none;
+    }
+</style>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Add Time Table For Public Examination</h1>
+
+    </div><!-- End Page Title -->
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card p-3">
+                    <div class="card-body">
+                        <form action="/admin/add" method="post">
+
+
+                            <label for="inputName5" class="form-label">Exam Name</label>
+                            <input type="text" class="form-control" name="examname">
+                            <br>
+                            <div class="form-group w-100 mb-3">
+                                <label for="" class="mt-2">Select Class</label>
+                                <select class="form-select" name="Class" aria-label="Default select example" required>
+                                    <option selected disabled>Class</option>
+                                    <option value="1">1st</option>
+                                    <option value="2">2nd</option>
+                                    <option value="3">3rd</option>
+                                    <option value="4">4th</option>
+                                    <option value="5">5th</option>
+                                    <option value="6">6th</option>
+                                    <option value="7">7th</option>
+
+                                </select>
+                            </div>
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 1</h5>
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d1">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s1">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 2</h5>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d2">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s2">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 3</h5>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d3">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s3">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 4</h5>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d4">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s4">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 5</h5>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d5">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s5">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 6</h5>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d6">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s6">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 7</h5>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d7">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s7">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <hr>
+                            <div class="row">
+                                <h5>Exam 8</h5>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Date</label>
+                                    <input type="date" class="form-control" name="d8">
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <label for="inputName5" class="form-label">Select Subject</label>
+                                    <select class="form-control form-control" name="s8">
+                                        <option selected disabled> Select Subject</option>
+                                        <option value=" English"> English</option>
+                                        <option value="Malayalam">Malayalam</option>
+                                        <option value="Hindi">Hindi</option>
+                                        <option value="Social Studies">Social Studies</option>
+                                        <option value="Science">Science</option>
+                                        <option value="Mathematics">Mathematics</option>
+                                        <option value="Sanskrit">Sanskrit</option>
+                                        <option value="Arabic">Arabic</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <a href="/admin/exam/all-exam-timetables" class="btn me-3 btn-secondary"
+                            data-dismiss="modal">Close</a>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+
+</main><!-- End #main -->

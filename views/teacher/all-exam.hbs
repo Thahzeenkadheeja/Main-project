@@ -22,6 +22,10 @@
                                 <th>No.</th>
                                 <th data-type="date" data-format="YYYY/DD/MM">Added Date</th>
                                 <th data-type="date" data-format="YYYY/DD/MM">Exam Date</th>
+                                <th>Class</th>
+                                <th>Subject</th>
+
+                                <th>Modules</th>
 
                                 <th>Chapter Details</th>
 
@@ -35,7 +39,14 @@
                                 <td>{{incremented @index}}</td>
                                 <td>{{formatDate this.createdAt}}</td>
                                 <td>{{formatDate this.deadline}}</td>
-                                <td>Ch No. {{this.no}} | {{this.name}}</td>
+                                <td>{{this.Class}}th</td>
+                                <td>{{this.subject}}</td>
+
+                                <td>From : Chapter {{this.from}}
+                                    <br> To : Chapter {{this.to}}
+                                </td>
+
+                                <td> {{this.name}}</td>
 
                                 <td>
                                     <a href="/teacher/delete-exam/{{this._id}}" class="btn btn-danger btn-sm">Delete</a>
